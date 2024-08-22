@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Total Offline Cameras</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Sr No</th>
+                <th scope="col">Camera Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Last Online</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for camera in offline_cameras %}
+                <tr>
+                    <th scope="row">{{ camera.srno }}</th>
+                    <td>{{ camera.name }}</td>
+                    <td>{{ camera.location }}</td>
+                    <td>{{ camera.last_online }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

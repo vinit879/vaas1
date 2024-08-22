@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Sites</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>List of Sites</h1>
+        <table>
+            <tr>
+                <th>Site Name</th>
+                <th>Device URL</th>
+                <th>Storage URL</th>
+                <th>Camera URL</th>
+                <th>Ports URL</th>
+                <th>Recording URL</th>
+                <th>Type</th>
+                <th>Client</th>
+                <th>Region</th>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+            {% for site in sites %}
+            <tr>
+                <td>{{ site.name }}</td>
+                <td>{{ site.device_url }}</td>
+                <td>{{ site.storage_url }}</td>
+                <td>{{ site.camera_url }}</td>
+                <td>{{ site.ports_url }}</td>
+                <td>{{ site.recording_url }}</td>
+                <td>{{ site.get_site_type_display }}</td>
+                <td>{{ site.client }}</td>
+                <td>{{ site.region }}</td>
+                <td>{{ site.username }}</td>
+                <td>{{ site.password }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

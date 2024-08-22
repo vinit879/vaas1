@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            color: #d9534f;
+        }
+        p {
+            margin: 10px 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #004080;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>An error occurred</h1>
+        <p>{{ error_message }}</p>
+        <button onclick="window.location.href='/info/device/'">Device Info</button>
+        <button onclick="window.location.href='/info/hdd/'">HDD Info</button>
+        <button onclick="window.location.href='/info/cpu/'">CPU Info</button>
+        <button onclick="window.location.href='/info/video/'">Video Input Info</button>
+        <button onclick="window.location.href='/info/streaming/'">Streaming Info</button>
+    </div>
+</body>
+</html>

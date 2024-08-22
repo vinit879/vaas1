@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header text-center">
+        <h1>Current Alerts</h1>
+        <div class="alert-controls">
+            <a href="{% url 'resolved_alerts' %}" class="btn btn-primary mx-2">View Resolved Alerts</a>
+            <a href="{% url 'dismissed_alerts' %}" class="btn btn-warning mx-2">View Dismissed Alerts</a>
+            <button id="toggle-view" class="btn btn-secondary mx-2" onclick="toggleView()">Grid View</button>
+        </div>
+    </div>
+
+    <div id="list-view" style="display: table; margin: 0 auto;">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="width: 15%;">Alert Type</th>
+                    <th style="width: 40%;">Message</th>
+                    <th style="width: 15%;">Source</th>
+                    <th style="width: 15%;">Created At</th>
+                    <th style="width: 15%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr id="alert-{{ alert.id }}">
+                    <td>{{ alert.get_alert_type_display }}</td>
+                    <td class="message-column" title="{{ alert.message }}">{{ alert.message }}</td>
+                    <td>{{ alert.source }}</td>
+                    <td>{{ alert.created_at }}</td>
+                    <td class="text-center">
+                        <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'resolve_alert' alert.id %}', {{ alert.id }})" class="btn btn-success btn-sm mb-2">Resolve</a>
+                        <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'dismiss_alert' alert.id %}', {{ alert.id }})" class="btn btn-warning btn-sm">Dismiss</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="grid-view" style="display: none; margin: 0 auto;">
+        <div class="grid-container">
+            {% for alert in alerts %}
+            <div id="alert-{{ alert.id }}" class="grid-item text-center">
+                <strong>{{ alert.get_alert_type_display }}</strong>
+                <p class="text-wrap" title="{{ alert.message }}">{{ alert.message }}</p>
+                <p>{{ alert.source }}</p>
+                <p>{{ alert.created_at }}</p>
+                <div>
+                    <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'resolve_alert' alert.id %}', {{ alert.id }})" class="btn btn-success btn-sm mb-2">Resolve</a>
+                    <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'dismiss_alert' alert.id %}', {{ alert.id }})" class="btn btn-warning btn-sm">Dismiss</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- jQuery (Full Version) -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Bootstrap Bundle with Popper.js -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+    /* General Styling */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f7f8fa;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode body {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 1200px; /* Increased width for better alignment */
+    }
+
+    h1 {
+        color: #34495e;
+        margin-bottom: 20px;
+    }
+
+    .dark-mode h1 {
+        color: #ecf0f1;
+    }
+
+    .alert-controls {
+        margin-bottom: 20px;
+    }
+
+    .alert-controls .btn {
+        width: auto;
+    }
+
+    table th, table td {
+        vertical-align: middle;
+    }
+
+    table .message-column {
+        white-space: normal; /* Allow wrapping */
+        word-wrap: break-word;
+    }
+
+    /* Grid View Styling */
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .grid-item {
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .grid-item p {
+        margin: 0 0 10px;
+    }
+
+    .grid-item p.text-wrap {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    .dark-mode .grid-item {
+        background-color: #34495e;
+        color: #ecf0f1;
+        border: none;
+    }
+
+    .btn-sm {
+        font-size: 14px;
+    }
+
+    .mb-2 {
+        margin-bottom: 10px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .mx-2 {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const listView = document.getElementById('list-view');
+        const gridView = document.getElementById('grid-view');
+        const toggleButton = document.getElementById('toggle-view');
+
+        // Retrieve the saved view from local storage and apply it immediately
+        const savedView = localStorage.getItem('currentView') || 'list';
+        applyView(savedView);
+
+        // Save the current view to local storage and switch views
+        toggleButton.addEventListener('click', function() {
+            const newView = listView.style.display === 'none' ? 'list' : 'grid';
+            applyView(newView);
+            localStorage.setItem('currentView', newView);
+        });
+
+        function applyView(view) {
+            if (view === 'grid') {
+                listView.style.display = 'none';
+                gridView.style.display = 'grid';
+                toggleButton.textContent = 'List View';
+            } else {
+                listView.style.display = 'table';
+                gridView.style.display = 'none';
+                toggleButton.textContent = 'Grid View';
+            }
+        }
+    });
+
+    function handleAlertAction(actionUrl, alertId) {
+        console.log('Attempting to handle alert with ID:', alertId); // Debugging line
+        fetch(actionUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: alertId })
+        }).then(response => {
+            if (response.ok) {
+                const alertElement = document.getElementById('alert-' + alertId);
+                if (alertElement) {
+                    console.log('Removing alert element:', alertId); // Debugging line
+                    alertElement.remove(); // Remove the alert from the DOM
+                } else {
+                    console.error('Alert element not found:', alertId); // Debugging line
+                }
+            } else {
+                console.error('Failed to perform the action on alert:', alertId); // Debugging line
+            }
+        }).catch(error => console.error('Error:', error));
+    }
+</script>
+{% endblock %}

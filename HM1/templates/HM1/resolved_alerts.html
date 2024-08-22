@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Resolved Alerts</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Alert Type</th>
+                <th>Message</th>
+                <th>Source</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+            <tr>
+                <td>{{ alert.get_alert_type_display }}</td>
+                <td>{{ alert.message }}</td>
+                <td>{{ alert.source }}</td>
+                <td>{{ alert.created_at }}</td>
+                <td>{{ alert.updated_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #eeeeee;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode body {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+    }
+
+    .container {
+        padding: 10px; /* Reduced padding */
+    }
+
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 10px; /* Reduced margin */
+    }
+
+    .dark-mode h1 {
+        color: #ecf0f1;
+    }
+
+    .total-count {
+        font-size: 18px; /* Reduced font size */
+        color: #2c3e50;
+        margin-bottom: 10px; /* Reduced margin */
+    }
+
+    .dark-mode .total-count {
+        color: #ecf0f1;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px; /* Reduced margin */
+    }
+
+    .back-button {
+        background-color: #DA1313;
+        color: white;
+        padding: 8px 16px; /* Reduced padding */
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px; /* Reduced font size */
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-button:hover {
+        background-color: #003b8a;
+        transform: scale(1.05);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px; /* Reduced margin */
+    }
+
+    th, td {
+        padding: 8px; /* Reduced padding */
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #004aad;
+        color: white;
+    }
+
+    .dark-mode th {
+        background-color: #2980b9;
+    }
+
+    .dark-mode td {
+        background-color: #34495e;
+        color: #ecf0f1; /* Text color for dark mode */
+    }
+
+    td {
+        background-color: #ffffff;
+        color: #333;
+    }
+
+    @media (max-width: 768px) {
+        th, td {
+            padding: 6px; /* Reduced padding */
+        }
+    }
+</style>
+{% endblock %}

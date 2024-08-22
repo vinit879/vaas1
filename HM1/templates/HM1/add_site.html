@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="header-box">
+        <h1>ADD NVR/DVR</h1>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div>
+                <label for="name">Site Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="device_url">Device URL:</label>
+                <input type="url" id="device_url" name="device_url" required>
+            </div>
+            <div>
+                <label for="storage_url">Storage URL:</label>
+                <input type="url" id="storage_url" name="storage_url" required>
+            </div>
+            <div>
+                <label for="camera_url">Camera URL:</label>
+                <input type="url" id="camera_url" name="camera_url" required>
+            </div>
+            <div>
+                <label for="ports_url">Ports URL:</label>
+                <input type="url" id="ports_url" name="ports_url" required>
+            </div>
+            <div>
+                <label for="recording_url">Recording URL:</label>
+                <input type="url" id="recording_url" name="recording_url" required>
+            </div>
+            <div>
+                <label for="site_type">Site Type:</label>
+                <select id="site_type" name="site_type" required>
+                    <option value="dvr">DVR</option>
+                    <option value="nvr">NVR</option>
+                </select>
+            </div>
+            <div>
+                <label for="client">Client:</label>
+                <input type="text" id="client" name="client" required>
+            </div>
+            <div>
+                <label for="region">Region:</label>
+                <input type="text" id="region" name="region" required>
+            </div>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="user">User:</label>
+                <select id="user" name="user" required>
+                    {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit">Add Site</button>
+    </form>    
+</div>
+
+<style>
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        max-width: 1000px;
+        margin: 0 auto;
+        border: 2px solid #e7e7e7;
+    }
+    .header-box {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h1 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #004aad;
+    }
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #333;
+    }
+    input[type="text"],
+    input[type="url"],
+    input[type="password"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    button {
+        width: 100%;
+        padding: 15px;
+        background-color: #004aad;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        margin-top: 20px;
+        grid-column: span 2;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #003a8c;
+    }
+</style>
+{% endblock %}

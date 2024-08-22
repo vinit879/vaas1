@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Dismissed Alerts</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Alert Type</th>
+                <th>Message</th>
+                <th>Source</th>
+                <th>Dismissed At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+            <tr>
+                <td>{{ alert.get_alert_type_display }}</td>
+                <td>{{ alert.message }}</td>
+                <td>{{ alert.source }}</td>
+                <td>{{ alert.created_at }}</td>
+                <td>{{ alert.updated_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

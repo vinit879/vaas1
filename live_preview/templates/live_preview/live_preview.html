@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Preview</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #343a40;
+            text-align: center;
+            font-size: 24px;
+        }
+        .header {
+            padding: 15px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .container {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .video-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            transition: transform 0.2s;
+        }
+        .video-item:hover {
+            transform: scale(1.02);
+        }
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+        .video-item img {
+            width: 100%;
+            cursor: pointer;
+        }
+        .camera-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 13px;
+        }
+        .camera-select {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .camera-select label {
+            margin-left: 5px;
+            font-weight: normal;
+        }
+        #start-streams {
+            margin-top: 15px;
+            width: 100%;
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+            padding: 10px;
+        }
+        #start-streams:hover {
+            background-color: #0056b3;
+        }
+        .fullscreen-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: none;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .fullscreen-button:hover {
+            background-color: #0056b3;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Live Stream Preview</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="client-select">Select Client:</label>
+                    <select id="client-select" class="form-control">
+                        <option value="">Select a client</option>
+                        <option value="all">All Clients</option>
+                        <option value="mac_donald">Mac Donald</option>
+                        <option value="stanza">Stanza</option>
+                        <option value="jioworld">Jio World</option>
+                        <option value="StarUnion">StarUnion</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="site-select">Select Site:</label>
+                    <select id="site-select" class="form-control">
+                        <option value="">Select a site</option>
+                        <!-- Sites will be dynamically populated based on the client -->
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="camera-select">Select Cameras (up to 6):</label>
+            <div id="camera-select" class="camera-select">
+                <!-- Checkboxes will be appended here by JavaScript -->
+            </div>
+        </div>
+        <button id="start-streams" class="btn btn-primary">Start Streams</button>
+        <div class="video-container" id="video-container">
+            <!-- Images will be appended here by JavaScript -->
+        </div>
+    </div>
+    <button id="exit-fullscreen" class="fullscreen-button">Exit Fullscreen</button>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const clients = {{ clients|safe }};
+            const clientSelect = $('#client-select');
+            const siteSelect = $('#site-select');
+
+            clientSelect.select2({
+                placeholder: "Select a client"
+            }).on('change', function() {
+                const client = this.value;
+                siteSelect.empty(); // Clear previous options
+
+                siteSelect.append($('<option>').val('').text('Select a site'));
+
+                if (client === 'all') {
+                    // Add all sites
+                    for (let key in clients) {
+                        clients[key].forEach(site => {
+                            siteSelect.append($('<option>').val(site.value).text(site.text).data('camera-count', site.cameraCount));
+                        });
+                    }
+                } else if (clients[client]) {
+                    clients[client].forEach(site => {
+                        siteSelect.append($('<option>').val(site.value).text(site.text).data('camera-count', site.cameraCount));
+                    });
+                }
+            });
+
+            siteSelect.select2({
+                placeholder: "Select a site"
+            }).on('change', function() {
+                const site = this.value;
+                const cameraSelect = $('#camera-select');
+                cameraSelect.empty(); // Clear previous checkboxes
+
+                const cameraCount = $('#site-select option:selected').data('camera-count');
+
+                if (cameraCount > 0) {
+                    for (let i = 1; i <= cameraCount; i++) {
+                        const checkbox = $('<input>').attr('type', 'checkbox').attr('id', `camera-${i}`).attr('value', i);
+                        const label = $('<label>').attr('for', `camera-${i}`).text(` Camera ${i}`);
+                        const div = $('<div>').append(checkbox).append(label);
+                        cameraSelect.append(div);
+                    }
+                }
+            });
+
+            $('#start-streams').click(function() {
+                const site = $('#site-select').val();
+                const container = $('#video-container');
+                container.empty(); // Clear previous images
+
+                if (site) {
+                    fetch(`/live_preview/stop_site_streams/${site}/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                const selectedCameras = [];
+                                $('#camera-select input[type="checkbox"]:checked').each(function() {
+                                    selectedCameras.push(this.value);
+                                });
+
+                                if (selectedCameras.length > 6) {
+                                    alert('Please select up to 6 cameras only.');
+                                    return;
+                                }
+
+                                selectedCameras.forEach(cameraId => {
+                                    const videoItem = $('<div>').addClass('video-item card');
+                                    const img = $('<img>').attr('src', `/live_preview/video_feed/${site}/${cameraId}/?${new Date().getTime()}`).attr('alt', `Stream ${cameraId}`);
+                                    const cameraName = $('<div>').addClass('camera-name').text(`Camera ${cameraId}`);
+
+                                    img.click(function() {
+                                        toggleFullscreen(this);
+                                    });
+
+                                    videoItem.append(img).append(cameraName);
+                                    container.append(videoItem);
+
+                                    // Refresh the image every 1 second
+                                    const intervalId = setInterval(() => {
+                                        img.attr('src', `/live_preview/video_feed/${site}/${cameraId}/?${new Date().getTime()}`);
+                                    }, 1000);
+
+                                    // Stop the stream after 2 minutes
+                                    setTimeout(() => {
+                                        clearInterval(intervalId);
+                                        img.attr('src', '');
+                                    }, 2 * 60 * 1000); // 2 minutes in milliseconds
+                                });
+                            } else {
+                                console.error('Failed to stop previous site streams');
+                            }
+                        })
+                        .catch(error => console.error('Error stopping site streams:', error));
+                }
+            });
+
+            function toggleFullscreen(element) {
+                if (!document.fullscreenElement) {
+                    element.requestFullscreen().catch(err => {
+                        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                    $('#exit-fullscreen').show();
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+
+            $('#exit-fullscreen').click(function() {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            });
+
+            $(document).on('fullscreenchange', function() {
+                if (!document.fullscreenElement) {
+                    $('#exit-fullscreen').hide();
+                } else {
+                    $('#exit-fullscreen').show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <img src="{% static 'info/logo.png' %}" alt="VC Tech Logo" class="logo">
+        <h1 class="title">System Alerts Dashboard</h1>
+    </div>
+
+    <!-- Client and Region Selection Dropdown -->
+    <div class="client-selection">
+        <label for="client-select">Select Client:</label>
+        <select id="client-select" onchange="filterByClient()">
+            <option value="all" {% if selected_client == 'all' %}selected{% endif %}>All</option>
+            <option value="StarUnion" {% if selected_client == 'StarUnion' %}selected{% endif %}>StarUnion</option>
+            <option value="Mcdonald" {% if selected_client == 'Mcdonald' %}selected{% endif %}>Mcdonald</option>
+            <option value="Stanza" {% if selected_client == 'Stanza' %}selected{% endif %}>Stanza</option>
+        </select>
+        <label for="region-select">Select Region:</label>
+        <select id="region-select" onchange="filterByRegion()">
+            <option value="all" {% if selected_region == 'all' %}selected{% endif %}>All</option>
+            <option value="east" {% if selected_region == 'east' %}selected{% endif %}>East</option>
+            <option value="west" {% if selected_region == 'west' %}selected{% endif %}>West</option>
+            <option value="north" {% if selected_region == 'north' %}selected{% endif %}>North</option>
+            <option value="south" {% if selected_region == 'south' %}selected{% endif %}>South</option>
+        </select>
+    </div>
+
+    <!-- Statistics Rows -->
+    <div class="stats-rows">
+        <!-- Row 1: Sites Stats -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Total Sites</h3>
+                    <p>{{ total_sites }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Online Sites</h3>
+                    <p>{{ total_online_sites }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Offline Sites</h3>
+                    <p>{{ total_offline_sites }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: NVR Stats -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Total NVRs</h3>
+                    <p>{{ nvr_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Online NVRs</h3>
+                    <p>{{ total_nvrs_online }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Offline NVRs</h3>
+                    <p>{{ total_nvrs_offline }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: DVR Stats -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Total DVRs</h3>
+                    <p>{{ dvr_count }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Online DVRs</h8>
+                    <p>{{ total_dvrs_online }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Offline DVRs</h3>
+                    <p>{{ total_dvrs_offline }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 4: Camera Stats -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Total Cameras</h3>
+                    <p>{{ total_cameras }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Online Cameras</h3>
+                    <p>{{ total_online_cameras }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Offline Cameras</h3>
+                    <p>{{ total_offline_cameras }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="alert-table">
+            <thead>
+                <tr>
+                    <th>All Sites</th>
+                    <th>Device Info</th>
+                    <th>Offline Cameras</th>
+                    <th>HDD Status</th>
+                    <th>Recordings</th>
+                    <th>Detail Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site_context in contexts %}
+                <tr>
+                    <td>{{ site_context.name }}</td>
+                    <td>
+                        <button class="info-button {% if site_context.nvr_status == 'online' %}online{% else %}offline{% endif %}" data-toggle="modal" data-target="#nvrInfoModal-{{ site_context.name }}">
+                            {{ site_context.device.channel_count }} {{ site_context.type|upper }}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="offline-button" style="background-color: 
+                        {% if site_context.offline_cameras_count == 0 and site_context.total_cameras_count > 0 %}#7ed957{% elif site_context.offline_cameras_count == site_context.total_cameras_count or site_context.total_cameras_count == 0 %}#ff3131{% else %}#ff914d{% endif %};" 
+                        data-toggle="modal" data-target="#cameraOfflineModal-{{ site_context.name }}">
+                            {{ site_context.offline_cameras_count }}/{{ site_context.total_cameras_count }}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="status-button" style="background-color: {{ site_context.hdd_status_color }};" data-toggle="modal" data-target="#hddInfoModal-{{ site_context.name }}">
+                            {{ site_context.hdd_status }}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="record-button" style="background-color: {% if site_context.recordings_days >= 45 %}#7ed957{% else %}#ff3131{% endif %};">
+                            {{ site_context.recordings_days }} days
+                        </button>
+                    </td>
+                    <td>
+                        <button class="detail-button" onclick="fetchDetails('{{ site_context.device.ip_address }}', '{{ site_context.device.http }}', '{{ site_context.name }}')">
+                            Show Info
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% for site_context in contexts %}
+    <!-- NVR Info Modal -->
+    <div class="modal fade" id="nvrInfoModal-{{ site_context.name }}" tabindex="-1" role="dialog" aria-labelledby="nvrInfoModalLabel-{{ site_context.name }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nvrInfoModalLabel-{{ site_context.name }}">NVR Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if site_context.device %}
+                    <p><strong>Device Name:</strong> {{ site_context.device.deviceName }}</p>
+                    <p><strong>Device ID:</strong> {{ site_context.device.deviceID }}</p>
+                    <p><strong>Model:</strong> {{ site_context.device.model }}</p>
+                    <p><strong>Serial Number:</strong> {{ site_context.device.serialNumber }}</p>
+                    <p><strong>MAC Address:</strong> {{ site_context.device.macAddress }}</p>
+                    <p><strong>Firmware Version:</strong> {{ site_context.device.firmwareVersion }}</p>
+                    <p><strong>Firmware Released Date:</strong> {{ site_context.device.firmwareReleasedDate }}</p>
+                    <p><strong>Encoder Version:</strong> {{ site_context.device.encoderVersion }}</p>
+                    <p><strong>Encoder Released Date:</strong> {{ site_context.device.encoderReleasedDate }}</p>
+                    <p><strong>Device Type:</strong> {{ site_context.device.deviceType }}</p>
+                    <p><strong>Telecontrol ID:</strong> {{ site_context.device.telecontrolID }}</p>
+                    <p><strong>Hardware Version:</strong> {{ site_context.device.hardwareVersion }}</p>
+                    <p><strong>Manufacturer:</strong> {{ site_context.device.manufacturer }}</p>
+                    {% else %}
+                    <p>No NVR information available.</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HDD Info Modal -->
+    <div class="modal fade" id="hddInfoModal-{{ site_context.name }}" tabindex="-1" role="dialog" aria-labelledby="hddInfoModalLabel-{{ site_context.name }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hddInfoModalLabel-{{ site_context.name }}">HDD Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if site_context.storage %}
+                    {% for hdd in site_context.storage %}
+                    <p><strong>ID:</strong> {{ hdd.id }}</p>
+                    <p><strong>Name:</strong> {{ hdd.hddName }}</p>
+                    <p><strong>Type:</strong> {{ hdd.hddType }}</p>
+                    <p><strong>Status:</strong> {{ hdd.status }}</p>
+                    <p><strong>Capacity:</strong> {{ hdd.capacity_tb|floatformat:2 }} TB</p>
+                    <p><strong>Free Space:</strong> {{ hdd.free_space_tb|floatformat:2 }} TB</p>
+                    <p><strong>Property:</strong> {{ hdd.property }}</p>
+                    <hr>
+                    {% endfor %}
+                    {% else %}
+                    <p>No storage information available.</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Camera Info Modal -->
+    <div class="modal fade" id="nvrChannelsModal-{{ site_context.name }}" tabindex="-1" role="dialog" aria-labelledby="nvrChannelsModalLabel-{{ site_context.name }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nvrChannelsModalLabel-{{ site_context.name }}">NVR Channels Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if site_context.cameras %}
+                    {% for camera in site_context.cameras %}
+                    <p><strong>Channel ID:</strong> {{ camera.id }}</p>
+                    <p><strong>IP Address:</strong> {{ camera.sourceInputPortDescriptor.ipAddress }}</p>
+                    <p><strong>Manage Port:</strong> {{ camera.sourceInputPortDescriptor.managePortNo }}</p>
+                    <p><strong>Stream Type:</strong> {{ camera.sourceInputPortDescriptor.streamType }}</p>
+                    <p><strong>Model:</strong> {{ camera.sourceInputPortDescriptor.model }}</p>
+                    <p><strong>Serial Number:</strong> {{ camera.sourceInputPortDescriptor.serialNumber }}</p>
+                    <p><strong>Firmware Version:</strong> {{ camera.sourceInputPortDescriptor.firmwareVersion }}</p>
+                    <p><strong>Enable Timing:</strong> {{ camera.enableTiming }}</p>
+                    <hr>
+                    {% endfor %}
+                    {% else %}
+                    <p>No camera information available.</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Camera Offline Modal -->
+    <div class="modal fade" id="cameraOfflineModal-{{ site_context.name }}" tabindex="-1" role="dialog" aria-labelledby="cameraOfflineModalLabel-{{ site_context.name }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cameraOfflineModalLabel-{{ site_context.name }}">Offline Camera Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if site_context.total_cameras_count == 0 %}
+                    <div class="status-display">
+                        <strong>Camera Status:</strong>
+                        <span class="status-abnormal">Offline</span>
+                    </div>
+                    <p>No cameras are available for this site.</p>
+                    {% elif site_context.offline_cameras %}
+                    {% for channel in site_context.offline_cameras %}
+                    <div class="status-display">
+                        <strong>Camera Status:</strong>
+                        <span class="status-abnormal">Offline</span>
+                        <p><strong>Last Online:</strong> {{ channel.last_online|default:"N/A" }}</p>
+                    </div>
+                    <p><strong>Channel ID:</strong> {{ channel.id }}</p>
+                    <hr>
+                    {% endfor %}
+                    {% else %}
+                    <div class="status-display">
+                        <strong>Camera Status:</strong>
+                        <span class="status-normal">Online</span>
+                    </div>
+                    <p>No offline camera information available.</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Info Modal -->
+    <div class="modal fade" id="detailInfoModal" tabindex="-1" role="dialog" aria-labelledby="detailInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailInfoModalLabel">Detail Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Site:</strong> <span id="modal-site-name"></span></p>
+                    <p><strong>IP Address:</strong> <span id="modal-ip-address"></span></p>
+                    <p><strong>HTTP Port:</strong> <span id="modal-http-port"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Loading message -->
+<div id="loading-message" style="text-align: center; font-size: 18px; padding: 20px;">
+    Data is loading, please wait...
+</div>
+
+<script>
+    // Show the dashboard content and hide the loading message once the data is fully loaded
+    window.addEventListener('load', function() {
+        document.getElementById('loading-message').style.display = 'none';
+        document.getElementById('dashboard-content').style.display = 'block';
+    });
+
+    function filterByClient() {
+        var client = document.getElementById('client-select').value;
+        window.location.href = '?client=' + client;
+    }
+
+    function filterByRegion() {
+        var region = document.getElementById('region-select').value;
+        window.location.href = '?region=' + region;
+    }
+
+    // Function to fetch IP Address and HTTP Port from the provided URL
+    function fetchDetails(ipAddress, httpPort, siteName) {
+        // Set the content in the modal
+        document.getElementById('modal-ip-address').textContent = ipAddress;
+        document.getElementById('modal-http-port').textContent = httpPort;
+        document.getElementById('modal-site-name').textContent = siteName;
+
+        // Show the modal
+        $('#detailInfoModal').modal('show');
+    }
+</script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/alert_dashboard.css' %}">
+
+<!-- Include jQuery and Bootstrap JS for modal functionality -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+{% endblock %}

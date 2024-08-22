@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VC TECHNOSOLUTIONS</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'info/sitelogo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'info/style.css' %}">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            background:  #004aad;
+            color: #f2f2f2;
+            animation: fadeIn 1s ease-in-out;
+            scroll-behavior: smooth;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #004aad;
+            padding: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+        .navbar:hover {
+            background-color: #444;
+        }
+        .navbar img {
+            width: 150px;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar ul li {
+            margin-left: 20px;
+        }
+        .navbar ul li a,
+        .navbar ul li button {
+            color: #f2f2f2;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .navbar ul li a:hover,
+        .navbar ul li button:hover {
+            background-color: #575757;
+            transform: scale(1.1);
+        }
+        .navbar ul li button.login {
+            background-color: red;
+            color: white; /* Ensure text is visible on red background */
+        }
+        .navbar ul li button.logout {
+            background-color: #ff6f61;
+        }
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+            #004aad, 
+                        url('{% static "info/hero-bg.jpg" %}') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            flex-direction: column;
+            animation: slideIn 1s ease-in-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+        .hero p {
+            font-size: 1.5rem;
+        }
+        .section {
+            padding: 100px 20px;
+        }
+        .section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+        .section p {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .values, .services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .values .card, .services .card {
+            background:  #004aad;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 8px;
+            width: 30%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.5s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card h3 {
+            color: #ff6f61;
+        }
+        .card p {
+            color: #ccc;
+        }
+        .contact-info {
+            text-align: center;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        .contact-info button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .contact-info button:hover {
+            background-color: #e55a4f;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#"><img src="{% static 'info/vctechlogo1.jpg' %}" alt="VC Tech Logo"></a>
+        <ul>
+            <li><button class="login" onclick="window.location.href='/accounts/login/'">Login</button></li>
+        </ul>
+    </div>
+</body>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+
+<script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-P32SZHB7"></script><script data-cfasync="false" data-pagespeed-no-defer="">
+	var gtm4wp_datalayer_name = "dataLayer";
+	var dataLayer = dataLayer || [];
+</script>
+
+	
+	<title>EYEQ - VC TECH</title>
+	<link rel="canonical" href="https://vctechnosolutions.com/services/ai-based-video-analytics/">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="EYEQ">
+	<meta property="og:description" content="Service Overview As the name suggests, Artificial intelligence-based Video Analytics utilizes computer software programs that analyze the images from video surveillance cameras to recognize humans, vehicles, objects, and events &amp; help organizations derive valuable output. Organizations today, are looking to immensely benefit from AI-based Video Analytics and are aggressively accepting […]">
+	<meta property="og:url" content="https://vctechnosolutions.com/services/ai-based-video-analytics/">
+	<meta property="og:site_name" content="VC TECH">
+	<meta property="article:modified_time" content="2021-06-25T15:05:20+00:00">
+	<meta property="og:image" content="https://vctechnosolutions.com/storage/2020/09/Facial-Recognition.jpg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:label1" content="Est. reading time">
+	<meta name="twitter:data1" content="7 minutes">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://vctechnosolutions.com/services/ai-based-video-analytics/","url":"https://vctechnosolutions.com/services/ai-based-video-analytics/","name":"EYEQ - VC TECH","isPartOf":{"@id":"https://vctechnosolutions.com/#website"},"primaryImageOfPage":{"@id":"https://vctechnosolutions.com/services/ai-based-video-analytics/#primaryimage"},"image":{"@id":"https://vctechnosolutions.com/services/ai-based-video-analytics/#primaryimage"},"thumbnailUrl":"https://vctechnosolutions.com/storage/2020/09/Facial-Recognition.jpg","datePublished":"2020-09-15T06:54:14+00:00","dateModified":"2021-06-25T15:05:20+00:00","breadcrumb":{"@id":"https://vctechnosolutions.com/services/ai-based-video-analytics/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://vctechnosolutions.com/services/ai-based-video-analytics/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://vctechnosolutions.com/services/ai-based-video-analytics/#primaryimage","url":"https://vctechnosolutions.com/storage/2020/09/Facial-Recognition.jpg","contentUrl":"https://vctechnosolutions.com/storage/2020/09/Facial-Recognition.jpg","width":626,"height":417},{"@type":"BreadcrumbList","@id":"https://vctechnosolutions.com/services/ai-based-video-analytics/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://vctechnosolutions.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://vctechnosolutions.com/services/"},{"@type":"ListItem","position":3,"name":"EYEQ"}]},{"@type":"WebSite","@id":"https://vctechnosolutions.com/#website","url":"https://vctechnosolutions.com/","name":"VC TECH","description":"Making Camera Smarter","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://vctechnosolutions.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"}]}</script>
+	
+
+
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+<link rel="dns-prefetch" href="//stats.wp.com">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//c0.wp.com">
+<link rel="alternate" type="application/rss+xml" title="VC TECH » Feed" href="https://vctechnosolutions.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="VC TECH » Comments Feed" href="https://vctechnosolutions.com/comments/feed/">
+<link rel="stylesheet" id="mediaelement-css" href="https://c0.wp.com/c/6.5.5/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-mediaelement-css" href="https://c0.wp.com/c/6.5.5/wp-includes/js/mediaelement/wp-mediaelement.min.css" type="text/css" media="all">
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="owl-carousel-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/assets/css/owl.carousel.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="gyan-widget-style-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/widgets/custom-widgets-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="custiom-css-css" href="https://vctechnosolutions.com/core/modules/3ef9e2b077/assets/css/ht-qrcode.css" type="text/css" media="all">
+<link rel="stylesheet" id="font-awesome-free-css" href="https://vctechnosolutions.com/core/assets/d23e8e6fe5/webfonts/font-awesome.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="swm-theme-style-minify-css" href="https://vctechnosolutions.com/core/assets/d23e8e6fe5/css/global-header-layout-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="swm-google-fonts-css" href="//fonts.googleapis.com/css?family=Roboto%3A400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%7CRoboto%3A600%7CFira+Sans%3A700%7CFira+Sans%3A700%7CFira+Sans%3A700&amp;display=swap&amp;subset=latin%2Clatin-ext" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-icons-css" href="https://vctechnosolutions.com/core/modules/f65f29574d/assets/lib/eicons/css/elementor-icons.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-frontend-css" href="https://vctechnosolutions.com/core/modules/f65f29574d/assets/css/frontend.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="swiper-css" href="https://vctechnosolutions.com/core/modules/f65f29574d/assets/lib/swiper/css/swiper.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-post-1932-css" href="https://vctechnosolutions.com/storage/elementor/css/post-1932.css" type="text/css" media="all">
+<link rel="stylesheet" id="elementor-post-1986-css" href="https://vctechnosolutions.com/storage/elementor/css/post-1986.css" type="text/css" media="all">
+<link rel="stylesheet" id="wws-public-style-css" href="https://vctechnosolutions.com/core/modules/6cff81c5b8/assets/css/wws-public-style.css" type="text/css" media="all">
+<style id="wws-public-style-inline-css" type="text/css">
+.wws--bg-color {
+			background-color: #22c15e;
+		}.wws--text-color {
+				color: #ffffff;
+		}.wws-popup__open-btn {
+				padding: 8px 20px;
+				border-radius: 20px;
+				display: inline-block;
+				margin-top: 15px;
+				cursor: pointer;
+			}.wws-popup-container--position {
+					right: 12px;
+					bottom: 12px;
+				}
+				.wws-popup__open-btn { float: right; }
+				.wws-gradient--position {
+				  bottom: 0;
+				  right: 0;
+				  background: radial-gradient(ellipse at bottom right, rgba(29, 39, 54, 0.2) 0, rgba(29, 39, 54, 0) 72%);
+				}@media( max-width: 720px ) {
+				.wws-popup__open-btn {
+					padding: 0 !important;
+					width: 60px !important;
+					height: 60px !important;
+					border-radius: 50% !important;
+					display: flex !important;
+					justify-content: center !important;
+					align-items: center !important;
+					font-size: 30px !important;
+				}
+				.wws-popup__open-btn > svg {
+					padding-right: 0;
+					width: 30px;
+					height: 30px;
+				}
+				.wws-popup__open-btn span { display: none; }
+			}
+</style>
+<link rel="stylesheet" id="wws-public-template-css" href="https://vctechnosolutions.com/core/modules/6cff81c5b8/assets/css/wws-public-template-8.css" type="text/css" media="all">
+<link rel="stylesheet" id="bizix-child-theme-style-css" href="https://vctechnosolutions.com/core/assets/733bb66342/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="google-fonts-1-css" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=auto" type="text/css" media="all">
+<link rel="stylesheet" id="wppb_stylesheet-css" href="https://vctechnosolutions.com/core/modules/69d329671e/assets/css/style-front-end.css" type="text/css" media="all">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><script type="text/javascript" src="https://c0.wp.com/c/6.5.5/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://c0.wp.com/c/6.5.5/wp-includes/js/jquery/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+
+
+<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=GT-5NGS9KG" id="google_gtagjs-js" async=""></script>
+<script type="text/javascript" id="google_gtagjs-js-after">
+/* <![CDATA[ */
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag('set', 'linker', {"domains":["vctechnosolutions.com"]} );
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-5NGS9KG");
+/* ]]> */
+</script>
+
+
+<link rel="https://api.w.org/" href="https://vctechnosolutions.com/wp-json/"><link rel="alternate" type="application/json" href="https://vctechnosolutions.com/wp-json/wp/v2/pages/1986"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://vctechnosolutions.com/xmlrpc.php?rsd">
+<link rel="shortlink" href="https://vctechnosolutions.com/?p=1986">
+<link rel="alternate" type="application/json+oembed" href="https://vctechnosolutions.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fvctechnosolutions.com%2Fservices%2Fai-based-video-analytics%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://vctechnosolutions.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fvctechnosolutions.com%2Fservices%2Fai-based-video-analytics%2F&amp;format=xml">
+
+<script data-host="https://analytics.mysurl.com" data-dnt="false" src="https://analytics.mysurl.com/js/script.js" id="ZwSg9rf6GA" async="" defer=""></script>
+
+<script type="text/javascript">
+document.onkeydown = function(e) {
+    if(e.keyCode == 123) {
+        return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+        return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+        return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'K'.charCodeAt(0)){
+        return false;
+    }
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
+        return false;
+    }
+    if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)){
+        return false;
+    }
+    if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)){
+        return false;
+    }
+    if(e.ctrlKey && e.keyCode == 'V'.charCodeAt(0)){    
+        return false;
+    }
+    if(e.ctrlKey && e.keyCode == 'A'.charCodeAt(0)){
+        return false;
+    }
+    if(e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)){
+        return false;
+    }
+}
+</script>
+	<style>img#wpstats{display:none}</style>
+		
+
+
+<script data-cfasync="false" data-pagespeed-no-defer="">
+	var dataLayer_content = {"pagePostType":"page","pagePostType2":"single-page","pagePostAuthor":"admin"};
+	dataLayer.push( dataLayer_content );
+</script>
+<script data-cfasync="false">
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P32SZHB7');
+</script>
+
+
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style><link rel="icon" href="https://vctechnosolutions.com/storage/2020/09/cropped-VC-Tech-Site-Identity-1-32x32.png" sizes="32x32">
+<link rel="icon" href="https://vctechnosolutions.com/storage/2020/09/cropped-VC-Tech-Site-Identity-1-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://vctechnosolutions.com/storage/2020/09/cropped-VC-Tech-Site-Identity-1-180x180.png">
+<meta name="msapplication-TileImage" content="https://vctechnosolutions.com/storage/2020/09/cropped-VC-Tech-Site-Identity-1-270x270.png">
+<script>function setREVStartSize(e){
+			//window.requestAnimationFrame(function() {
+				window.RSIW = window.RSIW===undefined ? window.innerWidth : window.RSIW;
+				window.RSIH = window.RSIH===undefined ? window.innerHeight : window.RSIH;
+				try {
+					var pw = document.getElementById(e.c).parentNode.offsetWidth,
+						newh;
+					pw = pw===0 || isNaN(pw) ? window.RSIW : pw;
+					e.tabw = e.tabw===undefined ? 0 : parseInt(e.tabw);
+					e.thumbw = e.thumbw===undefined ? 0 : parseInt(e.thumbw);
+					e.tabh = e.tabh===undefined ? 0 : parseInt(e.tabh);
+					e.thumbh = e.thumbh===undefined ? 0 : parseInt(e.thumbh);
+					e.tabhide = e.tabhide===undefined ? 0 : parseInt(e.tabhide);
+					e.thumbhide = e.thumbhide===undefined ? 0 : parseInt(e.thumbhide);
+					e.mh = e.mh===undefined || e.mh=="" || e.mh==="auto" ? 0 : parseInt(e.mh,0);
+					if(e.layout==="fullscreen" || e.l==="fullscreen")
+						newh = Math.max(e.mh,window.RSIH);
+					else{
+						e.gw = Array.isArray(e.gw) ? e.gw : [e.gw];
+						for (var i in e.rl) if (e.gw[i]===undefined || e.gw[i]===0) e.gw[i] = e.gw[i-1];
+						e.gh = e.el===undefined || e.el==="" || (Array.isArray(e.el) && e.el.length==0)? e.gh : e.el;
+						e.gh = Array.isArray(e.gh) ? e.gh : [e.gh];
+						for (var i in e.rl) if (e.gh[i]===undefined || e.gh[i]===0) e.gh[i] = e.gh[i-1];
+											
+						var nl = new Array(e.rl.length),
+							ix = 0,
+							sl;
+						e.tabw = e.tabhide>=pw ? 0 : e.tabw;
+						e.thumbw = e.thumbhide>=pw ? 0 : e.thumbw;
+						e.tabh = e.tabhide>=pw ? 0 : e.tabh;
+						e.thumbh = e.thumbhide>=pw ? 0 : e.thumbh;
+						for (var i in e.rl) nl[i] = e.rl[i]<window.RSIW ? 0 : e.rl[i];
+						sl = nl[0];
+						for (var i in nl) if (sl>nl[i] && nl[i]>0) { sl = nl[i]; ix=i;}
+						var m = pw>(e.gw[ix]+e.tabw+e.thumbw) ? 1 : (pw-(e.tabw+e.thumbw)) / (e.gw[ix]);
+						newh =  (e.gh[ix] * m) + (e.tabh + e.thumbh);
+					}
+					var el = document.getElementById(e.c);
+					if (el!==null && el) el.style.height = newh+"px";
+					el = document.getElementById(e.c+"_wrapper");
+					if (el!==null && el) {
+						el.style.height = newh+"px";
+						el.style.display = "block";
+					}
+				} catch(e){
+					console.log("Failure at Presize of Slider:" + e)
+				}
+			//});
+		  };</script>
+		<style type="text/css" id="custom-css">
+			.swm-primary-nav>li.pm-dropdown ul {
+    width: 236px;
+    left: 19px;
+}
+
+.swm-breadcrumbs, .swm-breadcrumbs a, .swm-sub-header-title, h1.swm-sub-header-title {
+    display: none;
+}
+.swm-main-container.swm-site-content {
+	padding-bottom: 0 !important;
+}
+
+.swm-large-footer {
+	padding: 50px 0 5px 0!important;
+}
+
+@media only screen and (max-width: 767px) {
+	#swm-sub-header .swm-sub-header-title, #swm-sub-header h1.swm-sub-header-title {
+			font-size: 24px;
+	}
+	.swm-sub-header {
+		height: 105px !important
+	}
+}
+@media only screen and (min-width: 768px) {
+	.swm-sub-header {
+		height: 205px !important
+	}
+
+}
+@media only screen and (min-width: 992px) {
+	.swm-sub-header {
+		height: 288px !important
+	}
+
+}
+@media only screen and (min-width: 1200px) {
+		.swm-sub-header {
+		height: 375px !important
+	}
+}		</style>
+		<style id="swm_customizer_css_output" type="text/css">@media (min-width:1200px){.swm-container{max-width:1200px;}}a.swm-go-top-scroll-btn{background:#0d3862;color:#ffffff;}body{font-size:16px;line-height:1.7;}.swm-site-content h1{font-size:40px;line-height:55px;}.swm-site-content h2{font-size:33px;line-height:50px;}.swm-site-content h3{font-size:29px;line-height:40px;}.swm-site-content h4{font-size:25px;line-height:36px;}.swm-site-content h5{font-size:22px;line-height:30px;}.swm-site-content h6{font-size:19px;line-height:25px;}h4.vc_tta-panel-title{font-size:16px;}body{font-family:Roboto;font-style:normal !important;font-weight:400;}.swm-site-content .sidebar .swm-sidebar-ttl h3,.swm-sidepanel .swm-sidepanel-ttl h3,.footer .swm-footer-widget h3,.gyan_widget_tabs .gyan_wid_tabs li,.gyan-heading-text,.swm-heading-text,blockquote.wp-block-quote.is-style-large p,p.has-large-font-size,.has-drop-cap:not(:focus)::first-letter{font-family:Fira Sans;font-style:normal !important;font-weight:700;}h1,h2,h3,h4,h5,h6,.gyan_fancy_heading_text,.gyan-heading-font,.gyan-font-heading,.swm-heading-font,.swm-font-heading,.swm-pf-only-title,.gyan_events_main_title{font-family:Fira Sans;font-style:normal !important;font-weight:700;}h4.vc_tta-panel-title{font-family:Roboto;font-weight:400;}.swm-site-content blockquote,.swm-site-content blockquote p{font-family:Roboto;font-weight:400;}.swm-container{padding:0 15px;}@media only screen and (min-width:980px){.swm-topbar-content .left:after,.swm-topbar-content .left:before{left:-15px;width:calc(100% + 15px);}.swm-topbar-content .left:after{left:-6px;}}@media only screen and (min-width:980px){.swm-custom-two-third{width:68.79803%;}#sidebar{width:28%;}}.swm-site-content h1,.swm-site-content h2,.swm-site-content h3,.swm-site-content h4,.swm-site-content h5,.swm-site-content h6,.swm-site-content h1 a,.swm-site-content h2 a,.swm-site-content h3 a,.swm-site-content h4 a,.swm-site-content h5 a,.swm-site-content h6 a{color:#0d3862;}.swm-site-content a{color:#0d3862;}.swm-site-content,.swm-content-color,.swm-content-color a,.swm-related-link a{color:#676767}.swm-site-content a:hover,ul.swm-search-list li h4 a:hover,.swm-content-color a:hover,.swm-related-link a:hover{color:#1e75bb;}a.swm-button span:hover,button.swm-button:hover,.swm-site-content a.button:hover,.swm-site-content a.button.button-alt,.swm-site-content a.button.button-alt:hover,.swm-sidepanel .tagcloud a,.sidebar .tagcloud a,.sidebar .tagcloud a:hover,.sidebar a.swm-button-hover-white,a.swm-button:hover,.swm-post-single-tags a:hover,blockquote:before,a.comment-reply-link:hover,.sidebar #wp-calendar caption,.swm-sidepanel #wp-calendar caption,ul.swm-post-author-icon li:hover a,.swm-pagination .page-numbers.current,.swm-pagination-menu>span,.swm-pagination-menu>a:hover,.swm-next-prev-pagination a:hover,.swm-pagination a.page-numbers:hover,span.post-page-numbers.current,.swm-pagination-menu a:hover,.swm-site-content a.post-page-numbers:hover,.gyan-pagination-menu>a:hover,.gyan-next-prev-pagination a:hover,.gyan-pagination .page-numbers.current,.gyan-pagination-menu>span,.gyan-pagination a.page-numbers:hover,.gyan-pagination-menu a:hover,.wp-block-pullquote::before,.wp-block-button a,.is-style-outline .wp-block-button__link:hover,.wp-block-file a.wp-block-file__button,.footer #wp-calendar caption{background:#0d3862;color:#ffffff;}.swm-primary-skin-col,.sidebar .gyan-posts-slider-widget .owl-next,.sidebar .gyan-posts-slider-widget .owl-prev,.sidebar .gyan-posts-slider-widget-meta-cat a,.is-style-outline .wp-block-button__link,.has-drop-cap:not(:focus)::first-letter,.swm-site-content table tr th a,#commentform p.logged-in-as a,a.swm-pp-link-title span.swm-heading-text:hover,.comment-form-author:before,.comment-form-email:before,.comment-form-comment:before,.swm-post-meta i,a.swm-pp-link-title span:hover{color:#0d3862;}.swm-post-date-line:before,.swm-mobi-nav-close{background:#0d3862;}.swm-next-prev-box:hover a .swm-pp-arrow i{color:#ffffff;}.swm-mobi-nav-close:before,.swm-mobi-nav-close:after{background:#ffffff;}input[type=text]:focus,input[type="password"]:focus,input[type="email"]:focus,input[type="number"]:focus,input[type="url"]:focus,input[type="tel"]:focus,input[type="search"]:focus,textarea:focus,.comment-form textarea:focus,.post-password-form input[type=password]:focus,#commentform input[type="text"]:focus,input[type="password"]:focus,#commentform textarea:focus,.widget_search .swm-search-form input[type="text"]:focus,ul.swm-post-author-icon li:hover a,.swm-post-single-tags a:hover,.sidebar .gyan-posts-slider-widget .owl-dot.active,.swm-sidepanel .gyan-posts-slider-widget .owl-dot.active,.sticky .swm-post-content-block,blockquote,.swm-site-content blockquote,.is-style-outline .wp-block-button__link,.is-style-outline .wp-block-button__link:hover{border-color:#0d3862;}a.swm-button span,button.swm-button,.swm-site-content a.button,.swm-site-content a.button.button-alt2,.swm-site-content a.button.button-alt2:hover,button.button,.swm-next-prev-box:hover .swm-pp-arrow,a.swm-button,.swm-post-meta-date,.sidebar table#wp-calendar thead th,.swm-sidepanel #wp-calendar thead,.swm-sidepanel .tagcloud a:hover,.sidebar .tagcloud a:hover,.wp-block-pullquote.is-style-solid-color:not(.has-background-color),.wp-block-button a:hover,.wp-block-file a.wp-block-file__button:hover{background:#252628;color:#ffffff;}.swm-pp-view-all a i,.comment-date i,.swm-site-content h5 a:hover,.swm-search-page-readmore a:hover,.sidebar .widget_search .swm-search-form button.swm-search-button,.swm-sidepanel .widget_search .swm-search-form button.swm-search-button,.swm-next-prev-box a .swm-pp-arrow i,.swm-pp-arrow i,.swm-pp-link-title i.fa,a.comment-edit-link,.sidebar a.swm-button-hover-white:hover,.sidebar .gyan-posts-slider-widget .owl-next:hover,.sidebar .gyan-posts-slider-widget .owl-prev:hover,.sidebar .gyan-posts-slider-widget-meta-cat a:hover,#commentform p.logged-in-as a:hover{color:#252628;}.gyan-recent-post-style-two .gyan-recent-post-meta ul li:after,blockquote:after{background:#252628;}.sidebar a.swm-button-hover-white:hover{background:#ffffff;}.swm-secondary-skin-text{color:#ffffff;}::selection{background:#0d3862;color:#ffffff;}::-moz-selection{background:#0d3862;color:#ffffff;}button,html input[type="button"],input[type=button],input[type="reset"],input[type="submit"],a.button,button.button,.button,.gyan-button,a.gyan-button,input.gyan-button,button.gyan-button,input.gyan-button[type="submit"],a.swm-button{background:#0d3862;color:#ffffff;}.swm-site-content button:hover,html input[type="button"]:hover,input[type=button]:hover,input[type="reset"]:hover,input[type="submit"]:hover,a.button:hover,button.button:hover,.button:hover,.gyan-button:hover,a.gyan-button:hover,input.gyan-button:hover,button.gyan-button:hover,input.gyan-button[type="submit"]:hover,a.swm-button:hover{background:#252628;color:#ffffff;}.swm-topbar,.swm-topbar a{font-size:14px;color:#bbbbbb;}.swm-topbar a:hover{color:#ffffff;}.swm_tb_left a{color:#ffffff;}.swm_tb_left a:hover{color:#ffffff;}ul.swm-topbar-socials li a{color:#bbbbbb;}ul.swm-topbar-socials li a:hover{color:#ffffff;}.swm-topbar-content ul li span i{color:#7f7f7f;}.swm-topbar{background:#252628;}.swm-topbar .swm-container:before,.swm-topbar-content .left:before,.swm-topbar-content .left:after{background:#0d3862;}.swm-topbar .left i.fas{color:#ffffff;}ul.swm_tb_right:before{background:#bbbbbb;}.swm-header-main-container{background:#ffffff;}@media only screen and (max-width:767px){body.transparentHeader .swm-header{background:#ffffff;}}.swm-logo{width:200px;}@media only screen and (min-width:768px){.header-main,.swm-header-logo-section,.swm-header-search,.swm-header-button-wrap,#swm-mobi-nav-btn,#swm-sidepanel-trigger,.swm-sidepanel-trigger-wrap,.swm_header_contact_info{height:107px;}}@media only screen and (max-width:767px){.header-main,.swm-header-logo-section,.swm-header-button-wrap,.swm-header-search,#swm-mobi-nav-btn,#swm-sidepanel-trigger,.swm-sidepanel-trigger-wrap{height:107px;}}@media only screen and (max-width:480px){.header-main,.swm-header-logo-section,.swm-header-button-wrap,.swm-header-search,#swm-mobi-nav-btn,#swm-sidepanel-trigger,.swm-sidepanel-trigger-wrap{height:80px;}}@media (min-width:1200px){body:not(.swm-l-boxed) .header_2_alt #swm-main-nav-holder.sticky-on .swm-infostack-menu,body:not(.swm-l-boxed) .header_2 #swm-main-nav-holder.sticky-on .swm-infostack-menu,body:not(.swm-l-boxed) .header_2_t #swm-main-nav-holder.sticky-on .swm-infostack-menu {max-width:1170px;}}@media (max-width:1199px){body:not(.swm-l-boxed) .header_2_alt #swm-main-nav-holder.sticky-on .swm-infostack-menu,body:not(.swm-l-boxed) .header_2 #swm-main-nav-holder.sticky-on .swm-infostack-menu,body:not(.swm-l-boxed) .header_2_t #swm-main-nav-holder.sticky-on .swm-infostack-menu {max-width:calc(100% - 30px);}}.swm-primary-nav>li.pm-dropdown ul li a span,ul.swm-primary-nav>li>a{font-family:Roboto;font-style:normal;font-weight:600;}ul.swm-primary-nav>li{line-height:107px;}ul.swm-primary-nav>li>a{color:#0d3862;font-size:15px;margin:0 19px;text-transform:uppercase;}ul.swm-primary-nav>li>a:hover,ul.swm-primary-nav>li.swm-m-active>a{color:#1e75bb;}.swm-sp-icon-box:hover .swm-sp-icon-inner,.swm-sp-icon-box:hover .swm-sp-icon-inner:after,.swm-sp-icon-box:hover .swm-sp-icon-inner:before,.s_two .swm-sp-icon-box:hover .swm-sp-icon-inner span{background:#1e75bb;}.swm-sp-icon-box:hover,.swm-header-search span:hover,span.swm-mobi-nav-btn-box>span:hover{color:#1e75bb;border-color:#1e75bb;}span.swm-mobi-nav-btn-box>span:hover:before,span.swm-mobi-nav-btn-box>span:hover:after,span.swm-mobi-nav-btn-box>span:hover>span{background:#1e75bb;}.swm-primary-nav>li>a>span:before,.swm-primary-nav>li.swm-m-active>a>span:before,.swm-primary-nav>li>a:before,.swm-primary-nav>li.swm-m-active>a:before{background:#1e75bb;}.swm-header-search{color:#0d3862;}#swm-mobi-nav-icon span.swm-mobi-nav-btn-box>span{border-color:#0d3862;}span.swm-mobi-nav-btn-box>span:before,span.swm-mobi-nav-btn-box>span:after,span.swm-mobi-nav-btn-box>span>span{background-color:#0d3862;}.swm-infostack-menu,.header_2_alt .swm-infostack-menu:before,.swm-infostack-menu:after{background:rgba(242,242,242,1);}.swm-primary-nav>li.pm-dropdown ul,.swm-primary-nav>li.megamenu-on ul>li>ul>li{font-size:14px;text-transform:none;}.swm-primary-nav>li li a,#swm-mobi-nav ul li a,#swm-mobi-nav .swm-mini-menu-arrow{color:#676767}.swm-primary-nav>li.megamenu-on>ul>li{line-height:22px;}.swm-primary-nav>li.pm-dropdown ul>li:hover>a,.swm-primary-nav>li.megamenu-on ul a:hover,.swm-primary-nav>li.megamenu-on ul>li>ul>li:hover>a{color:#1e75bb;}.swm-primary-nav>li.pm-dropdown ul,.swm-primary-nav>li.megamenu-on>ul{background-color:#ffffff;}.swm-primary-nav>li.megamenu-on>ul>li span.megamenu-column-header a{font-size:18px;color:#032e42;}.swm-primary-nav>li.megamenu-on>ul>li>ul li a span{padding-top:5px;padding-bottom:5px;line-height:23px;}.swm-primary-nav>li.pm-dropdown ul li a{padding-top:7px;padding-bottom:7px;}.swm-primary-nav>li.pm-dropdown ul{width:236px;left:19px;}.swm-primary-nav>li.pm-dropdown li.menu-item-has-children>a:after{display:none;}#swm-mobi-nav ul li{font-size:14px;text-transform:none;}@media only screen and (max-width:1000px){#swm-mobi-nav-icon{display:block;}.swm-primary-nav-wrap{display:none;}.swm-header-menu-section-wrap {margin-bottom:0;}ul.swm-primary-nav>li>a>span>i{width:auto;display:inline-block;height:auto;margin-right:8px;}.swm-main-nav{float:right;}}#swm-main-nav-holder.sticky-on ul.swm-primary-nav>li>a{font-size:15px;color:#0d3862;}#swm-main-nav-holder.sticky-on ul.swm-primary-nav>li>a:hover,#swm-main-nav-holder.sticky-on ul.swm-primary-nav>li.swm-m-active>a{color:#1e75bb;}#swm-main-nav-holder.sticky-on .swm-sp-icon-box:hover,#swm-main-nav-holder.sticky-on .swm-header-search span:hover,#swm-main-nav-holder.sticky-on span.swm-mobi-nav-btn-box>span:hover{color:#1e75bb;border-color:#1e75bb;}#swm-main-nav-holder.sticky-on .swm-sp-icon-box:hover .swm-sp-icon-inner,#swm-main-nav-holder.sticky-on .swm-sp-icon-box:hover .swm-sp-icon-inner:after,#swm-main-nav-holder.sticky-on .swm-sp-icon-box:hover .swm-sp-icon-inner:before,#swm-main-nav-holder.sticky-on .s_two .swm-sp-icon-box:hover .swm-sp-icon-inner span{background-color:#1e75bb;}#swm-main-nav-holder.sticky-on{background:#ffffff;}#swm-main-nav-holder.sticky-on .swm-primary-nav>li>a>span:before,#swm-main-nav-holder.sticky-on .swm-primary-nav>li.swm-m-active>a>span:before,#swm-main-nav-holder.sticky-on .swm-primary-nav>li>a:before,#swm-main-nav-holder.sticky-on .swm-primary-nav>li.swm-m-active>a:before{background:#1e75bb;}#swm-main-nav-holder.sticky-on .swm-header-search{color:#0d3862;}#swm-main-nav-holder.sticky-on .swm-sp-icon-box{border-color:#0d3862;}#swm-main-nav-holder.sticky-on .swm-sp-icon-box .swm-sp-icon-inner,#swm-main-nav-holder.sticky-on .swm-sp-icon-box .swm-sp-icon-inner:after,#swm-main-nav-holder.sticky-on .swm-sp-icon-box .swm-sp-icon-inner:before,#swm-main-nav-holder.sticky-on .s_two .swm-sp-icon-box .swm-sp-icon-inner span{background-color:#0d3862;}.swm_searchbox_holder{background-color:rgba(37,38,40,0.99);color:#ffffff;}@media only screen and (min-width:768px){.swm_overlay_search_box button.swm-search-button[type="submit"],.swm_overlay_search_box input.swm-search-form-input[type="text"],.swm_overlay_search_box .swm_search_form{font-size:21px;}}.swm_overlay_search_box{border-color:#1e75bb;}.swm_overlay_search_box button.swm-search-button[type="submit"],.swm_overlay_search_box input.swm-search-form-input[type="text"],.swm_overlay_search_box input.swm-search-form-input[type="text"]:focus{color:#ffffff;}.swm_overlay_search_box input.swm-search-form-input[type="text"]{color:#ffffff;text-shadow:none;}.swm_overlay_search_box input::-webkit-input-placeholder{color:#ffffff;}.swm_overlay_search_box input::-moz-placeholder{color:#ffffff;}.swm_overlay_search_box input::-ms-placeholder{color:#ffffff;}.swm_overlay_search_box input::placeholder{color:#ffffff;}.swm_overlay_search_box{max-width:905px;}.swm_searchbox_close{color:#ffffff;}.swm_header_contact_info,.swm_header_contact_info a{color:#032e42;}.swm-cih-subtitle{color:#676767;}.swm-cih-icon{color:#d83030;}.swm-cih-title{font-size:16px;}.swm-cih-subtitle{font-size:15px;}.swm-header-cinfo-column:before{background:#032e42;}ul.swm-header-socials li a{color:#676767;background:#f5f5f5;}ul.swm-header-socials li:hover a{color:#ffffff;background:#d83030;}.header_2_t ul.swm-header-socials li a{border-color:#676767;}.header_2_t ul.swm-header-socials li a:hover{border-color:#ffffff;}.sidebar,.widget-search .swm-search-form button.swm-search-button,.sidebar .widget_product_search #swm_product_search_form button.swm-search-button,#widget_search_form input[type="text"],.sidebar .gyan_recent_posts_tiny_title a,.sidebar select,.swm-sidepanel select,.widget_search .swm-search-form input[type="text"],.swm-about-author,.swm-about-author a{color:#676767;}.swm-site-content .sidebar .swm-sidebar-ttl h3 span,.swm-site-content .swm-archives-content h4,.swm-about-author-title-subtitle a{color:#032e42;font-size:19px;letter-spacing:0px;text-transform:uppercase;}.sidebar .gyan-posts-slider-widget-title a{color:#032e42;}.sidebar .recent_posts_slider a,.sidebar a,.sidebar .tp_recent_tweets .twitter_time{color:#676767;}.sidebar ul li a:hover,.sidebar a:hover{color:#d83030;}.sidebar,.sidebar p,.sidebar ul li,.sidebar ul li a,.sidebar .tagcloud a{font-size:15px;}.sidebar .swm-sidebar-ttl h3 span:before,.sidebar .swm-sidebar-ttl h3 span:after{background:#d83030;}.sidebar .swm-sidebar-widget-box,.single .swm-about-author{background:#f6f3ee;}.sidebar .swm-list-widgets ul li,.sidebar .widget-search .swm-search-form #s,.sidebar .widget_rss ul li,.sidebar .widget_meta ul li,.sidebar .widget_pages ul li,.sidebar .widget_archive ul li,.sidebar .widget_recent_comments ul li,.sidebar .widget_recent_entries ul li,.sidebar .widget-nav-menu ul li,.sidebar .input-text,.sidebar input[type="text"],.sidebar input[type="password"],.sidebar input[type="email"],.sidebar input[type="number"],.sidebar input[type="url"],.sidebar input[type="tel"],.sidebar input[type="search"],.sidebar textarea,.sidebar select,.sidebar #wp-calendar thead th,.sidebar #wp-calendar caption,.sidebar #wp-calendar tbody td,.sidebar #wp-calendar tbody td:hover,.sidebar input[type="text"]:focus,.sidebar input[type="password"]:focus,.sidebar input[type="email"]:focus,.sidebar input[type="number"]:focus,.sidebar input[type="url"]:focus,.sidebar input[type="tel"]:focus,.sidebar input[type="search"]:focus,.sidebar textarea:focus,.sidebar .widget-search .swm-search-form #s:focus,.sidebar .gyan-recent-posts-large-title,.sidebar .gyan-recent-posts-tiny ul li,ul.swm-post-author-icon li a{border-color:#dcdcdc;}.swm-post-meta,.swm-post-meta ul li a,.swm-post-meta ul li a:hover,a.swm-pp-link-title span,.swm-post-single-tags a{color:#676767;}.swm-post-title h2,.swm-post-title h2 a,.swm-post-title h1{color:#032e42;letter-spacing:0px;text-transform:none;}.swm-post-title h2 a:hover,.swm-post-meta ul li a:hover{color:#d83030;}@media only screen and (min-width:768px){#swm-item-entries .swm-post-title h2,#swm-item-entries .swm-post-title h2 a,#swm-item-entries .swm-post-title h1{font-size:30px;line-height:44px;}}.swm-about-author .swm-single-pg-titles a,a.swm-pp-link-title span.swm-heading-text,a.swm-about-author-name,.swm-related-link a,.comment-author a,.comment-author{color:#032e42;}h5.swm-single-pg-titles,#comments h5.swm-single-pg-titles,#respond h3.comment-reply-title{color:#032e42;font-size:25px;letter-spacing:0px;text-transform:none;line-height:44px;}.footer{background-color:#252628;color:#bbbbbb;}.footer,.footer p{font-size:15px;line-height:30px;}.footer ul li a,.footer .tagcloud a,.footer .wp-caption,.footer button.button,.footer .widget_product_search #swm_product_search_form button.swm-search-button,.footer .widget_search .swm-search-form button.swm-search-button,.footer .gyan-posts-slider-widget .owl-next,.footer .gyan-posts-slider-widget .owl-prev{color:#bbbbbb;}.footer a{color:#bbbbbb;}.footer a:hover,.footer #wp-calendar tbody td a,.footer ul.menu > li ul li.current-menu-item > a,.footer .widget-nav-menu ul li.current-menu-item > a,.footer .widget_categories ul li.current-cat > a,.footer .widget.woocommerce ul li.current-cat a,.footer .widget ul li a:hover,.footer .recent_posts_slider_title p a:hover,.footer .recent_posts_slider_title span a:hover,.footer a.twitter_time:hover,.footer .swm-list-widgets ul li:hover:before,.footer .gyan-posts-slider-widget .owl-next:hover,.footer .gyan-posts-slider-widget .owl-prev:hover{color:#ffffff;}.footer .gyan-posts-slider-widget .owl-dot.active{border-color:#ffffff;}.footer .widget_search .swm-search-form input[type="text"]{color:#bbbbbb;text-shadow:none;}.footer .widget_search .swm-search-form input[type="text"]::-webkit-input-placeholder{color:#bbbbbb;}.footer .widget_search .swm-search-form input[type="text"]::-moz-placeholder{color:#bbbbbb;}.footer .widget_search .swm-search-form input[type="text"]::-ms-placeholder{color:#bbbbbb;}.footer .widget_search .swm-search-form input[type="text"]::placeholder{color:#bbbbbb;}.footer #widget_search_form #searchform #s,.footer #widget_search_form #searchform input.button,.footer .tagcloud a,.footer #swm_product_search_form button.swm-search-button i,.footer .gyan-posts-slider-widget .owl-dot{border-color:#343538;}.footer .input-text,.footer input[type="text"],.footer input[type="password"],.footer input[type="email"],.footer input[type="number"],.footer input[type="url"],.footer input[type="tel"],.footer input[type="search"],.footer textarea,.footer select,.footer #wp-calendar thead th,.footer #wp-calendar tbody td,.footer #wp-calendar tbody td:hover,.footer input[type="text"]:focus,.footer input[type="password"]:focus,.footer input[type="email"]:focus,.footer input[type="number"]:focus,.footer input[type="url"]:focus,.footer input[type="tel"]:focus,.footer input[type="search"]:focus,.footer textarea:focus,.footer #widget_search_form #searchform #s:focus{color:#bbbbbb;border-color:#343538;}.footer .swm-footer-widget h3{font-size:20px;color:#ffffff;letter-spacing:0px;text-transform:none;line-height:30px;}.footer .swm-footer-widget,.footer .swm-fb-subscribe-wid{margin-bottom:30px;}.footer .widget_meta ul li:before,.footer .widget_categories ul li:before,.footer .widget_pages ul li:before,.footer .widget_archive ul li:before,.footer .widget_recent_comments ul li:before,.footer .widget_recent_entries ul li:before,.footer .widget-nav-menu ul li:before,.footer .widget_product_categories ul li:before,.footer .archives-link ul li:before,.footer .widget_rss ul li:before,.footer .widget-nav-menu ul li.current-menu-item:before,.footer .widget_categories ul li.current-cat:before{color:#bbbbbb}.footer #wp-calendar thead th,.footer #wp-calendar tbody td,.footer .tagcloud a:hover,.footer ul li.cat-item small,.footer .wp-caption,.footer a.button,.footer a.button:hover,.footer .gyan-recent-posts-large-title,.footer button.button{background:#1c1d1f}.footer select{background-color:#1c1d1f}.footer .gyan-recent-posts-tiny ul li a{color:#bbbbbb;}.footer .swm-small-footer{font-size:15px;color:#aaaaaa;}.footer .swm-small-footer a{color:#aaaaaa;}.footer .swm-small-footer a:hover{color:#ffffff;}.swm_contact_footer,.swm_contact_footer a{color:#ffffff;}.swm_contact_footer_holder{background:#191a1c;}.swm-cf-m-column{background:#0d3862;}.swm_contact_footer:before{border-color:#3b3c3f;}</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head>
+</html>
+<body data-rsssl="1" class="page-template page-template-elementor_header_footer page page-id-1986 page-child parent-pageid-319 layout-sidebar-right_page swm-no-boxed swm-stickyOn elementor-default elementor-template-full-width elementor-kit-1932 elementor-page elementor-page-1986 &quot; spy=&quot;scroll&quot; oncontextmenu=&quot;return false; e--ua-blink e--ua-chrome e--ua-webkit" data-boxed-margin="40" data-elementor-device-mode="tablet">
+	
+
+
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P32SZHB7" height="0" width="0" style="display:none;visibility:hidden" aria-hidden="true"></iframe></noscript>
+
+</form>
+
+        <div class="left">
+            <ul id="swm_tb_left" class="swm_tb_left"><li id="menu-item-469" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-469 megamenu-first-element"><a href="tel:+91-2240162434"><span><i class="fas fa-phone"></i><span>+91-2240162434</span></span></a></li><li id="menu-item-468" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-468 megamenu-first-element"><a href="http://info@vctechnosolutions.com"><span><i class="fas fa-envelope"></i><span>info@vctechnosolutions.com</span></span></a></li></ul>					</div>
+
+        
+        <div class="right ">
+            <ul id="swm_tb_right" class="swm_tb_right"><li id="menu-item-470" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-470 megamenu-first-element"><a><span><i class="fas fa-clock regular"></i><span>Connect with Us</span></span></a></li></ul>													<ul class="swm-topbar-socials">
+                                    <li class="swm_sm_ic"><a href="https://www.linkedin.com/company/vc-techno/" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                                </ul>
+                <div class="clear"></div>
+                                </div>
+
+<div class="swm-header header_1s" id="swm-header">
+<div class="swm-header-container-wrap sticky-on" id="swm-main-nav-holder" data-sticky-hide="768" style="top: 0px;">
+<div class="swm-container header-main">
+        <div class="swm-header-button-search">
+            
+                                </div>
+    
+    <div class="swm-header-menu-section-wrap">
+        <div class="swm-header-menu-section" id="swm-primary-navigation">
+
+            <div class="swm-main-nav">
+
+                <div id="swm-mobi-nav-icon">
+                    <div id="swm-mobi-nav-btn"><span class="swm-mobi-nav-btn-box"><span class="swm-transition"><span class="swm-transition"></span></span></span></div>
+                    <div class="clear"></div>
+                </div>
+    <div id="swm-mobi-nav">
+        <span class="swm-mobi-nav-close"></span>
+        <div class="clear"></div>
+    <ul id="swm-primary-nav" class=""><li id="menu-item-1999" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-1999 megamenu-first-element"><a href="https://vctechnosolutions.com/"><span>Home</span></a></li><li id="menu-item-2000" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2000 megamenu-first-element"><a href="https://vctechnosolutions.com/about-us/"><span>About Us</span></a></li><li id="menu-item-2003" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor current-menu-ancestor current-menu-parent current-page-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-2003 pm-dropdown megamenu-first-element swm-m-active swm-has-sub-menu"><span class="swm-mini-menu-arrow"></span><a href="https://vctechnosolutions.com/services/"><span>Services</span></a>
+<ul class="sub-menu ">
+<li id="menu-item-2009" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2009 megamenu-first-element"><a href="https://vctechnosolutions.com/services/cctv-cameras-setup/"><span>CCTV Cameras Setup</span></a></li><li id="menu-item-2008" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2008 megamenu-first-element"><a href="https://vctechnosolutions.com/services/cctv-doctor/"><span>CCTV Doctor</span></a></li><li id="menu-item-2004" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-2004 pm-dropdown megamenu-first-element swm-has-sub-menu"><span class="swm-mini-menu-arrow"></span><a href="https://vctechnosolutions.com/services/virtual-watch-dog/"><span>Virtual Watch Dog</span></a>
+<ul class="sub-menu ">
+<li id="menu-item-2006" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2006 megamenu-first-element"><a href="https://vctechnosolutions.com/services/cctv-virtual-guard/"><span>CCTV Virtual Guard</span></a></li><li id="menu-item-2007" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2007 megamenu-first-element"><a href="https://vctechnosolutions.com/services/cctv-live/"><span>CCTV Live</span></a></li>	</ul>
+</li><li id="menu-item-2010" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-1986 current_page_item menu-item-2010 megamenu-first-element"><a href="https://vctechnosolutions.com/services/ai-based-video-analytics/"><span>EYEQ</span></a></li></ul>
+</li><li id="menu-item-2005" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-2005 megamenu-on megamenu-style-grid megamenu-first-element swm-has-sub-menu"><span class="swm-mini-menu-arrow"></span><a href="https://vctechnosolutions.com/industries/"><span>Industries</span></a>
+<ul class="sub-menu megamenu-item-inited" data-megamenu-columns="4">
+<li id="menu-item-2017" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2017 pm-dropdown megamenu-first-element swm-has-sub-menu" style="width: auto;"><span class="swm-mini-menu-arrow"></span><span class="megamenu-column-header"><a href="https://vctechnosolutions.com/industries/banking-industry/"><span>BFSI</span></a></span>
+<ul class="sub-menu ">
+<li id="menu-item-2018" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2018"><a href="https://vctechnosolutions.com/industries/banking-industry/smart-atm/"><span>Smart ATM’s</span></a></li><li id="menu-item-2019" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2019"><a href="https://vctechnosolutions.com/industries/smart-branches/"><span>Smart Branches</span></a></li>	</ul>
+</li><li id="menu-item-2020" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2020 pm-dropdown swm-has-sub-menu" style="width: auto;"><span class="swm-mini-menu-arrow"></span><span class="megamenu-column-header"><a href="https://vctechnosolutions.com/industries/retail-outlets-qsr/"><span>Retail Outlets/ QSR’s</span></a></span>
+<ul class="sub-menu ">
+<li id="menu-item-2613" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2613"><a href="https://vctechnosolutions.com/industries/retail-outlets-qsr/small-retail-outlet/"><span>Small Outlets</span></a></li><li id="menu-item-2620" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2620"><a href="https://vctechnosolutions.com/industries/retail-outlets-qsr/medium-retail-outlet-or-qsr/"><span>Medium Outlets</span></a></li>	</ul>
+</li><li id="menu-item-2023" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2023 pm-dropdown swm-has-sub-menu" style="width: auto;"><span class="swm-mini-menu-arrow"></span><span class="megamenu-column-header"><a href="https://vctechnosolutions.com/industries/warehousing-logistics/"><span>Warehousing &amp; Logistics</span></a></span>
+<ul class="sub-menu ">
+<li id="menu-item-2024" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2024"><a href="https://vctechnosolutions.com/industries/warehousing-logistics/small-warehouses/"><span>Small Warehouses</span></a></li><li id="menu-item-2025" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2025"><a href="https://vctechnosolutions.com/industries/warehousing-logistics/medium-to-large-warehouses/"><span>Medium to Large Warehouses</span></a></li>	</ul>
+</li><li id="menu-item-2029" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2029" style="width: auto;"><span class="megamenu-column-header"><a href="https://vctechnosolutions.com/industries/factories-manufacturing-plants/"><span>Factories &amp; Manufacturing Plants</span></a></span></li></ul>
+</li><li id="menu-item-2055" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2055"><a href="https://vctechnosolutions.com/contact-us/"><span>Contact Us</span></a></li></ul></div>
+    <div id="swm-mobi-nav-overlay-bg" class="swm-css-transition"></div>
+
+</div>   
+
+</div> 
+
+</div> 			<div class="clear"></div>
+
+
+</div>	
+</header><div class="swm-header-placeholder" data-header-d="107" data-header-t="107" data-header-m="80" style="height: 107px;"></div>			<div id="content" class="swm-main-container swm-site-content swm-css-transition">		<div data-elementor-type="wp-page" data-elementor-id="1986" class="elementor elementor-1986">
+                        <section class="elementor-section elementor-top-section elementor-element elementor-element-f63accd elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="f63accd" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-21ec9b3" data-id="21ec9b3" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-0d0a784 elementor-widget elementor-widget-image" data-id="0d0a784" data-element_type="widget" data-widget_type="image.default">
+    <div class="elementor-widget-container">
+                                                <img fetchpriority="high" decoding="async" width="1920" height="519" src="https://vctechnosolutions.com/storage/2020/12/VC-TECH-Company-Profile-CCTV-EYEQ.jpg" class="attachment-full size-full wp-image-2855" alt="" srcset="https://vctechnosolutions.com/storage/2020/12/VC-TECH-Company-Profile-CCTV-EYEQ.jpg 1920w, https://vctechnosolutions.com/storage/2020/12/VC-TECH-Company-Profile-CCTV-EYEQ-300x81.jpg 300w, https://vctechnosolutions.com/storage/2020/12/VC-TECH-Company-Profile-CCTV-EYEQ-1024x277.jpg 1024w, https://vctechnosolutions.com/storage/2020/12/VC-TECH-Company-Profile-CCTV-EYEQ-768x208.jpg 768w, https://vctechnosolutions.com/storage/2020/12/VC-TECH-Company-Profile-CCTV-EYEQ-1536x415.jpg 1536w" sizes="(max-width: 1920px) 100vw, 1920px">															</div>
+    </div>
+    <div class="elementor-element elementor-element-0abe51b elementor-widget elementor-widget-spacer" data-id="0abe51b" data-element_type="widget" data-widget_type="spacer.default">
+    <div class="elementor-widget-container">
+        <div class="elementor-spacer">
+<div class="elementor-spacer-inner"></div>
+</div>
+    </div>
+    </div>
+        </div>
+</div>
+                </div>
+</section>
+    <section class="elementor-section elementor-top-section elementor-element elementor-element-6b857c83 elementor-section-stretched elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="6b857c83" data-element_type="section" data-settings="{&quot;stretch_section&quot;:&quot;section-stretched&quot;}" style="width: 965px; left: 0px;">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-66 elementor-top-column elementor-element elementor-element-6d51bce3" data-id="6d51bce3" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <section class="elementor-section elementor-inner-section elementor-element elementor-element-29d3694e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="29d3694e" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-11929a05" data-id="11929a05" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-35535b5f gyan-title-desc-left elementor-widget elementor-widget-gyan_title" data-id="35535b5f" data-element_type="widget" data-widget_type="gyan_title.default">
+    <div class="elementor-widget-container">
+        <div class="gyan-title">
+            <h1>WELCOME TO VC TECH DASHBOARD</h1>
+<h2 class="gyan-title-heading"></h2><div class="gyan-title-desc">As the name suggests, Artificial intelligence-based Video Analytics utilizes computer software programs that analyze the images from video surveillance cameras to recognize humans, vehicles, objects, and events &amp; help organizations derive valuable output.
+Organizations today, are looking to immensely benefit from AI-based Video Analytics and are aggressively accepting these solutions to make their physical places smarter &amp; safer. We aim to provide immense operational benefits to our customers which not only helps them reduce their expense immensely but at the same time increases their efficiency tremendously.
+</div>		</div>
+    </div>
+    </div>
+        </div>
+</div>
+                </div>
+</section>
+    <section class="elementor-section elementor-inner-section elementor-element elementor-element-7d3df975 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7d3df975" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-3c354ff3" data-id="3c354ff3" data-element_type="column">
+<div class="elementor-widget-wrap">
+                        </div>
+</div>
+    <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-7ddcbac" data-id="7ddcbac" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-299f9e7c elementor-widget elementor-widget-image" data-id="299f9e7c" data-element_type="widget" data-widget_type="image.default">
+    <div class="elementor-widget-container">
+                                                <img decoding="async" width="626" height="417" src="https://vctechnosolutions.com/storage/2020/09/Facial-Recognition.jpg" class="attachment-full size-full wp-image-2300" alt="" srcset="https://vctechnosolutions.com/storage/2020/09/Facial-Recognition.jpg 626w, https://vctechnosolutions.com/storage/2020/09/Facial-Recognition-300x200.jpg 300w" sizes="(max-width: 626px) 100vw, 626px">															</div>
+    </div>
+        </div>
+</div>
+    <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-528c827d" data-id="528c827d" data-element_type="column">
+<div class="elementor-widget-wrap">
+                        </div>
+</div>
+                </div>
+</section>
+    <section class="elementor-section elementor-inner-section elementor-element elementor-element-332ddc31 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="332ddc31" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-17f15bec" data-id="17f15bec" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-380e71aa gyan-title-desc-left elementor-widget elementor-widget-gyan_title" data-id="380e71aa" data-element_type="widget" data-widget_type="gyan_title.default">
+    <div class="elementor-widget-container">
+        <div class="gyan-title">
+<h2 class="gyan-title-heading">How does Video Analytics work</h2><div class="gyan-title-desc">We are committed to bringing products which are easy to connect &amp; simple to use, we hereby present SMART BOX a simple plug &amp; play device which once connected to your Cameras, will make them intelligent. Smart BOX is having wide application areas from as small as ATM’s to as big as Manufacturing plant, Smart BOX stands with our principles of creating Values for our customers by becoming better &amp; better every day. Smart BOX does the same thing. This is a pure Make in India product, which has been designed, developed &amp; manufactured here in India. It is extremely easy to install and very Simple to use device.</div>		</div>
+    </div>
+    </div>
+        </div>
+</div>
+                </div>
+</section>
+    <section class="elementor-section elementor-inner-section elementor-element elementor-element-100f19a0 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="100f19a0" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-791cb71d" data-id="791cb71d" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-4f04a12a gyan-title-desc-left elementor-widget elementor-widget-gyan_title" data-id="4f04a12a" data-element_type="widget" data-widget_type="gyan_title.default">
+    <div class="elementor-widget-container">
+        <div class="gyan-title">
+<h2 class="gyan-title-heading">Activities performed by Smart BOX: </h2><div class="gyan-title-desc">Smart BOX makes Cameras intelligent by using their Video footage to perform AI-based Video Analytics. This has immense operational benefits:</div>		</div>
+    </div>
+    </div>
+        </div>
+</div>
+                </div>
+</section>
+    <section class="elementor-section elementor-inner-section elementor-element elementor-element-779bf4dc elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="779bf4dc" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-729f26f8" data-id="729f26f8" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-6e022201 elementor-widget elementor-widget-gyan_tabs" data-id="6e022201" data-element_type="widget" data-widget_type="gyan_tabs.default">
+    <div class="elementor-widget-container">
+        <div id="gyan-tabs-6e022201" class="gyan-tabs gyan-tabs-horizontal active-caret-on" data-tabid="6e022201">
+  <div class="gyan-tabs-nav">
+    <ul class="">
+                                  <li class="gyan-ease-transition active">
+                                            <span class="gyan-tab-title">Facial Recognition</span>
+                                       </li>
+                                    <li class="gyan-ease-transition inactive">
+                                            <span class="gyan-tab-title">Customer Demography </span>
+                                       </li>
+                                    <li class="gyan-ease-transition inactive">
+                                            <span class="gyan-tab-title">People Counting</span>
+                                       </li>
+                                    <li class="gyan-ease-transition inactive">
+                                            <span class="gyan-tab-title">Entry Restrictions</span>
+                                       </li>
+                                    <li class="gyan-ease-transition inactive">
+                                            <span class="gyan-tab-title">SOP Deviations</span>
+                                       </li>
+                          </ul>
+  </div>
+  <div class="gyan-tabs-content">
+                          <div class="active">
+                                              <p><img decoding="async" class="size-medium wp-image-2233 aligncenter" src="https://vctechnosolutions.com/storage/2020/09/A1-Face-Recognition-300x200.jpg" alt="" width="300" height="200" srcset="https://vctechnosolutions.com/storage/2020/09/A1-Face-Recognition-300x200.jpg 300w, https://vctechnosolutions.com/storage/2020/09/A1-Face-Recognition.jpg 626w" sizes="(max-width: 300px) 100vw, 300px"></p><p>We can make your existing cameras recognize the face of your employees as well as visitors whoever is coming in or going out of your premises. Many organizations world over are using this technology to identify their employees &amp; customers who frequently visit their premises. It has helped the organizations to mark contactless attendance of their employees and also to keep a track of employees who frequently move out during office hours which usually goes unaccounted in any organization. To get an immediate alert if any VIP customer or any Blacklist Customer arrives in their premise. This we do by connecting your existing Entry/Exit Cameras to Smart BOX which helps in performing Facial Recognition. This can be immensely beneficial for Retail Outlets, Bank Branches, Educational Institutions, Corporate Offices, or any organizations which are interested to know who is coming in &amp; going out of their premises.</p>    							                    </div>
+                        <div class="inactive">
+                                              <h4><img loading="lazy" decoding="async" class="size-medium wp-image-2725 aligncenter" src="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg" alt="" width="300" height="230" srcset="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg 300w, https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b.jpg 600w" sizes="(max-width: 300px) 100vw, 300px"></h4><p>In retail, it is extremely important to know your customer &amp; if you know their demography, you can design your marketing campaigns specifically for the target audience thus helping you increase your Revenues. Now how do we do this? We connect your existing CCTV Camera to our Smart BOX which then analyses the footage on a real-time basis to provide you with Age &amp; Gender Analysis. This can be immensely beneficial for Retail Outlets, QSRs or any organizations who want to know age and gender of customers who visit their premises</p>    							                    </div>
+                        <div class="inactive">
+                                              <p><img loading="lazy" decoding="async" class="size-medium wp-image-2725 aligncenter" src="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg" alt="" width="300" height="230" srcset="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg 300w, https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b.jpg 600w" sizes="(max-width: 300px) 100vw, 300px"></p><p>By connecting your existing Entry/Exit Camera to Smart BOX, you can come to know exactly how many people have entered or left your premises or how many are currently inside your premises. This can be extremely beneficial for various organizations that want to track the Footfall Count per Store. For Retail Outlets, they can use this data to get store conversion ratio by simply dividing the total into people with the total number of Sale which will give your conversion ratio. Immensely beneficial for Retail Outlets, QSRs, Bank branches, Educational Institutions.</p>    							                    </div>
+                        <div class="inactive">
+                                              <p><img loading="lazy" decoding="async" class="size-medium wp-image-2725 aligncenter" src="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg" alt="" width="300" height="230" srcset="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg 300w, https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b.jpg 600w" sizes="(max-width: 300px) 100vw, 300px">In the -post-COVID times, this can be extremely beneficial for organizations that want to restrict entry depending upon the total number of people inside their premises. As the government has made compulsory on the total percentage of the crowd that is acceptable in different types of premises, this can easily help organizations to manage the total amount of people by doing people counting &amp; helping them in real-time crowd management. Immensely beneficial for Retail Outlets, Salons, QSRs, Bank branches, Educational Institutions.</p>    							                    </div>
+                        <div class="inactive">
+                                              <p><img loading="lazy" decoding="async" class="size-medium wp-image-2725 aligncenter" src="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg" alt="" width="300" height="230" srcset="https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b-300x230.jpg 300w, https://vctechnosolutions.com/storage/2020/10/0bf11f9d-db41-4974-836f-38d6b2de126b.jpg 600w" sizes="(max-width: 300px) 100vw, 300px"></p><p>By connecting your existing Cameras to Smart BOX, you can track various SOP deviations like POS Manned/Unmanned inside Retail Outlets, Store Opening/Closing, Wearing of Uniform by employees inside the premises, following certain SOP’s for certain critical tasks, Wearing safety harnesses, etc. Smart BOX can make your cameras smarter, efficient &amp; reliable to increase your productivity with the help of technology. Applicable for any organizations across industries who want to make their Cameras valuable by making them Smart.</p>    							                    </div>
+                  </div>
+</div>
+   </div>
+    </div>
+        </div>
+</div>
+                </div>
+</section>
+        </div>
+</div>
+    <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-2012c8cf" data-id="2012c8cf" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <section class="elementor-section elementor-inner-section elementor-element elementor-element-7ee456e8 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7ee456e8" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-7cea4a34" data-id="7cea4a34" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-5a343d32 gyan-menu-list-vertical elementor-widget elementor-widget-gyan_menu_list" data-id="5a343d32" data-element_type="widget" data-widget_type="gyan_menu_list.default">
+    <div class="elementor-widget-container">
+<div class="gyan-menu-list"><div class="menu-useful-links-container"><ul id="menu-useful-links" class="gyan-menu-list-item gyan-ease-transition"><li id="menu-item-2093" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2093"><a href="https://vctechnosolutions.com/services/cctv-cameras-setup/">CCTV Setup Camera Setup</a></li>
+<li id="menu-item-2580" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2580"><a href="https://vctechnosolutions.com/services/cctv-doctor/">CCTV Doctor</a></li>
+<li id="menu-item-2097" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2097"><a href="https://vctechnosolutions.com/services/virtual-watch-dog/">Virtual Watch Dog</a></li>
+<li id="menu-item-2098" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-1986 current_page_item menu-item-2098 swm-m-active"><a href="https://vctechnosolutions.com/services/ai-based-video-analytics/" aria-current="page">EYEQ</a></li>
+<li id="menu-item-2099" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2099"><a href="https://vctechnosolutions.com/industries/">Industries</a></li>
+<li id="menu-item-3505" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3505"><a href="https://vctechnosolutions.com/industries/banking-industry/">Banking</a></li>
+<li id="menu-item-3504" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3504"><a href="https://vctechnosolutions.com/industries/retail-outlets-qsr/">Retail Outlets</a></li>
+<li id="menu-item-3503" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3503"><a href="https://vctechnosolutions.com/industries/warehousing-logistics/">Warehousing &amp; Logistics</a></li>
+<li id="menu-item-3502" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3502"><a href="https://vctechnosolutions.com/industries/factories-manufacturing-plants/">Manufacturing Plants</a></li>
+</ul></div></div>		</div>
+    </div>
+        </div>
+</div>
+                </div>
+</section>
+    <section class="elementor-section elementor-inner-section elementor-element elementor-element-f789af8 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="f789af8" data-element_type="section">
+            <div class="elementor-container elementor-column-gap-default">
+        <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-b64e8c9" data-id="b64e8c9" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-c325770 gyan-infobox-position-top gyan-infobox-center-no gyan-infobox-align-center gyan-hover-animation-none gyan-animation-box-fade elementor-widget elementor-widget-gyan_info_box" data-id="c325770" data-element_type="widget" data-widget_type="gyan_info_box.default">
+    <div class="elementor-widget-container">
+
+<div class="gyan-info-box gyan-animation-box gyan-ease-transition">
+
+
+
+    <div class="gyan-infobox-icon-holder gyan-ease-transition">
+
+        
+        
+        
+                                <span class="gyan-infobox-image">
+                <img loading="lazy" decoding="async" width="53" height="53" src="https://vctechnosolutions.com/storage/2020/02/icon-call.png" class="attachment-full size-full wp-image-631" alt="">						</span>
+        
+        
+    </div>
+
+
+<div class="gyan-infobox-content-holder">
+
+    
+        <h4 class="gyan-infobox-title gyan-ease-transition">
+                                    Have any Questions? <br>Call us Today!											</h4>
+
+    
+    
+    
+        <h5 class="gyan-infobox-content gyan-ease-transition">
+            +91-2249692309					</h5>
+
+    
+    
+    <div class="clear"></div>
+</div>
+</div>
+</div>
+    </div>
+    <div class="elementor-element elementor-element-f9f1511 elementor-widget elementor-widget-heading" data-id="f9f1511" data-element_type="widget" data-widget_type="heading.default">
+    <div class="elementor-widget-container">
+<h2 class="elementor-heading-title elementor-size-default"><a href="mailto:info@vctechnosolutions.com">info@vctechnosolutions.com</a></h2>		</div>
+    </div>
+        </div>
+</div>
+                </div>
+</section>
+        </div>
+</div>
+                </div>
+</section>
+    <section class="elementor-section elementor-top-section elementor-element elementor-element-8d728a3 elementor-section-stretched elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="8d728a3" data-element_type="section" data-settings="{&quot;stretch_section&quot;:&quot;section-stretched&quot;,&quot;background_background&quot;:&quot;classic&quot;}" style="width: 965px; left: 0px;">
+            <div class="elementor-container elementor-column-gap-no">
+        <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-b28739d" data-id="b28739d" data-element_type="column">
+<div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-element elementor-element-    4a0ebae gyan-infobox-align-left gyan-infobox-position-top gyan-infobox-center-no gyan-hover-animation-none gyan-animation-box-fade elementor-widget elementor-widget-gyan_info_box" data-id="4a0ebae" data-element_type="widget" data-widget_type="gyan_info_box.default">
+    <div class="elementor-widget-container">
+
+<div class="gyan-info-box gyan-animation-box gyan-ease-transition">
+
+
+
+    <div class="gyan-infobox-icon-holder gyan-ease-transition">
+
+        
+                                <a href="https://vctechnosolutions.com/services/cctv-cameras-setup/" class="gyan-infobox-link"></a>
+        
+        
+                                <span class="gyan-infobox-image">
+                <img loading="lazy" decoding="async" width="74" height="74" src="https://vctechnosolutions.com/storage/2020/02/icon-pay-per-click.png" class="attachment-full size-full wp-image-646" alt="">						</span>
+        
+        
+    </div>
+
+
+</div><div class="swm-container">
+<div class="swm-small-footer">
+Copyright 2020 VC Tech, All rights reserved.	</div>
+</div>		</footer>
+
+
+</div>
+</div>
+
+<a class="swm-go-top-scroll-btn" style="display: inline;"><i class="fas fa-angle-up"></i></a>
+<script>
+window.RS_MODULES = window.RS_MODULES || {};
+window.RS_MODULES.modules = window.RS_MODULES.modules || {};
+window.RS_MODULES.waiting = window.RS_MODULES.waiting || [];
+window.RS_MODULES.defered = true;
+window.RS_MODULES.moduleWaiting = window.RS_MODULES.moduleWaiting || {};
+window.RS_MODULES.type = 'compiled';
+</script>
+<iframe name="qrcode_print_frame" width="0" height="0" frameborder="0" src="about:blank" style="max-width: 100%; width: 100%;"></iframe>
+<div id="wws-layout-8" class="wws-popup-container wws-popup-container--position">
+
+<div class="wws-gradient wws-gradient--position"></div>
+
+
+<div class="wws-popup" data-wws-popup-status="0">
+
+
+<div class="wws-popup__header">
+
+
+<div class="wws-popup__close-btn wws--bg-color wws--text-color wws-shadow">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>			</div>
+<div class="wws-clearfix"></div>
+
+
+</div>
+
+
+
+<div class="wws-popup__body">
+
+
+<div class="wws-popup__support-wrapper  wws-shadow">
+    <div class="wws-popup__support">
+        <div class="wws-popup__support-about wws--bg-color wws--text-color">
+            Our customer support team is here to answer your questions. Ask us anything!					</div>
+    </div>
+</div>
+<div class="wws-clearfix"></div>
+
+
+
+<div class="wws-popup__support-person-container wws-shadow">
+
+    
+    <div class="wws-popup__support-person-wrapper">
+
+    
+                
+                    <div class="wws-popup__support-person">
+
+                        <a class="wws-popup__support-person-link wws-popup__send-btn" href="javascript:;" data-wws-number="919892899882" data-wws-pre-msg="%0A
+Page Title: EYEQ%0A
+Page URL: https://vctechnosolutions.com/services/ai-based-video-analytics/" data-wws-name="Sales" data-wws-id="1" data-ga-analytics-label="Multi Person - Sales">
+                            <div class="wws-popup__support-person-img-wrapper">
+
+                                                                                <img class="wws-popup__support-person-img" src="https://vctechnosolutions.com/storage/2020/09/Multimedia_455-scaled.jpg" alt="//" width="54">
+                                
+                                <div class="wws-popup__support-person-available"></div>
+                            </div>
+                            <div class="wws-popup__support-person-info-wrapper">
+                                <div class="wws-popup__support-person-name">Sales</div>
+                                <div class="wws-popup__support-person-title"></div>
+                                <div class="wws-popup__support-person-status">Available</div>
+                            </div>
+                        </a>
+
+                    
+                        <div class="wws-popup__support-person-cta" data-wws-agent-call="+919892899882">
+                            <img src="https://vctechnosolutions.com/core/modules/6cff81c5b8//assets/img/phone.svg" alt="//">
+                        </div>
+
+                    
+                    </div>
+
+                
+                
+                    <div class="wws-popup__support-person">
+
+                        <a class="wws-popup__support-person-link wws-popup__send-btn" href="javascript:;" data-wws-number="919310334916" data-wws-pre-msg="%0A
+Page Title: EYEQ%0A
+Page URL: https://vctechnosolutions.com/services/ai-based-video-analytics/" data-wws-name="Service" data-wws-id="2" data-ga-analytics-label="Multi Person - Service">
+                            <div class="wws-popup__support-person-img-wrapper">
+
+                                                                                <img class="wws-popup__support-person-img" src="https://vctechnosolutions.com/storage/2020/09/Multimedia_455-scaled.jpg" alt="//" width="54">
+                                
+                                <div class="wws-popup__support-person-available"></div>
+                            </div>
+                            <div class="wws-popup__support-person-info-wrapper">
+                                <div class="wws-popup__support-person-name">Service</div>
+                                <div class="wws-popup__support-person-title"></div>
+                                <div class="wws-popup__support-person-status">Available</div>
+                            </div>
+                        </a>
+
+                    
+                    </div>          
+</div>
+</div>
+</div>
+</div>
+<div class="wws-popup__footer">
+
+
+<div class="wws-popup__open-btn wws--bg-color wws--text-color wws-shadow">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg> <span>Hi, how can We help?</span>
+</div>
+<div class="wws-clearfix"></div>
+</div>
+</div>
+<link rel="stylesheet" id="gyan-title-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/css/widgets/title-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="gyan-icon-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/css/gyan-icon-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="gyan-tabs-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/css/widgets/tabs-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="gyan-menu-list-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/css/widgets/menu-list-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="gyan-position-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/css/gyan-position-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="gyan-animation-box-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/css/gyan-animation-box-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="gyan-info-box-css" href="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/css/widgets/info-box-min.css" type="text/css" media="all">
+<link rel="stylesheet" id="rs-plugin-settings-css" href="https://vctechnosolutions.com/core/modules/4b36101dcc/public/assets/css/rs6.css" type="text/css" media="all">
+<style id="rs-plugin-settings-inline-css" type="text/css">
+</style>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/1f962d4cd9/assets/js/owl.carousel.min.js" id="jquery-owl-js"></script>
+<script type="text/javascript" id="gyan-custom-scripts-js-extra">
+/* <![CDATA[ */
+var gyan_get_ajax_full_url = {"ajaxurl":"https:\/\/vctechnosolutions.com\/adm\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/1f962d4cd9/assets/js/custom-scripts-min.js" id="gyan-custom-scripts-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/3ef9e2b077/assets/js/easy.qrcode.min.js" id="easy-qrcode-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/3ef9e2b077/assets/js/qrcode-custom.js" id="custom-js-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/4b36101dcc/public/assets/js/rbtools.min.js" defer="" async="" id="tp-tools-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/4b36101dcc/public/assets/js/rs6.min.js" defer="" async="" id="revmin-js"></script>
+<script type="text/javascript" src="https://c0.wp.com/c/6.5.5/wp-includes/js/jquery/ui/effect.min.js" id="jquery-effects-core-js"></script>
+<script type="text/javascript" src="https://c0.wp.com/c/6.5.5/wp-includes/js/jquery/ui/effect-blind.min.js" id="jquery-effects-blind-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/easing.min.js" id="swm-easing-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/debouncedresize.min.js" id="swm-debouncedresize-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/fitvids.min.js" id="fitVids-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/cookie.min.js" id="swm-cookie-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/coffeescript.min.js" id="coffeescript-js"></script>
+<script type="text/javascript" src="https://c0.wp.com/c/6.5.5/wp-includes/js/imagesloaded.min.js" id="imagesloaded-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/js/jquery.magnific-popup.min.js" id="magnific-popup-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/js/isotope.min.js" id="isotope-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/theme-settings-min.js" id="swm-theme-settings-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/theme-megamenu-min.js" id="swm-megamenu-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/assets/d23e8e6fe5/js/theia-sticky-sidebar.min.js" id="theia-sticky-sidebar-js"></script>
+<script defer="" type="text/javascript" src="https://stats.wp.com/e-202427.js" id="jetpack-stats-js"></script>
+<script type="text/javascript" id="jetpack-stats-js-after">
+/* <![CDATA[ */
+_stq = window._stq || [];
+_stq.push([ "view", {v:'ext',blog:'183221517',post:'1986',tz:'5.5',srv:'vctechnosolutions.com',j:'1:12.9.3'} ]);
+_stq.push([ "clickTrackerInit", "183221517", "1986" ]);
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/6cff81c5b8/assets/libraries/inputmask/jquery.inputmask.min.js" id="wws-input-mask-js"></script>
+<script type="text/javascript" id="wws-public-script-js-extra">
+/* <![CDATA[ */
+var wwsObj = {"support_number":"911234567890","auto_popup":"yes","auto_popup_time":"5","plugin_url":"https:\/\/vctechnosolutions.com\/core\/modules\/6cff81c5b8\/","is_mobile":"0","current_page_id":"1986","current_page_url":"https:\/\/vctechnosolutions.com\/services\/ai-based-video-analytics\/","popup_layout":"8","group_invitation_id":"XYZ12345678","admin_url":"https:\/\/vctechnosolutions.com\/adm\/admin-ajax.php","scroll_lenght":"","pre_defined_text":"%0A\r\nPage Title: EYEQ%0A\r\nPage URL: https:\/\/vctechnosolutions.com\/services\/ai-based-video-analytics\/","is_debug":"no","fb_ga_click_tracking":"{\"fb_click_tracking_status\":\"yes\",\"fb_click_tracking_event_name\":\"Chat started\",\"fb_click_tracking_event_label\":\"Support\",\"ga_click_tracking_status\":\"yes\",\"ga_click_tracking_event_name\":\"Button Clicked\",\"ga_click_tracking_event_category\":\"WhatsApp Support\",\"ga_click_tracking_event_label\":\"Support\"}","is_gdpr":"no","numberMasking":"99999-99999","whatsapp_mobile_api":"https:\/\/api.whatsapp.com","whatsapp_desktop_api":"https:\/\/web.whatsapp.com","whatsapp_web_api":"","version":"2.4.3","security_token":"3027c11819"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/6cff81c5b8/assets/js/wws-public-script.js" id="wws-public-script-js"></script>
+<script type="text/javascript" id="gyan-widgets-js-extra">
+/* <![CDATA[ */
+var gyanAjax = {"ajaxURL":"https:\/\/vctechnosolutions.com\/adm\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/1f962d4cd9/addons/js/gyan-widgets-min.js" id="gyan-widgets-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/f65f29574d/assets/js/webpack.runtime.min.js" id="elementor-webpack-runtime-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/f65f29574d/assets/js/frontend-modules.min.js" id="elementor-frontend-modules-js"></script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/f65f29574d/assets/lib/waypoints/waypoints.min.js" id="elementor-waypoints-js"></script>
+<script type="text/javascript" src="https://c0.wp.com/c/6.5.5/wp-includes/js/jquery/ui/core.min.js" id="jquery-ui-core-js"></script>
+<script type="text/javascript" id="elementor-frontend-js-before">   
+/* <![CDATA[ */
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnTwitter":"Share on Twitter","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close","a11yCarouselWrapperAriaLabel":"Carousel | Horizontal scrolling: Arrow Left & Right","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}}},"version":"3.18.3","is_static":false,"experimentalFeatures":{"e_dom_optimization":true,"e_optimized_assets_loading":true,"additional_custom_breakpoints":true,"block_editor_assets_optimize":true,"landing-pages":true,"e_image_loading_optimization":true,"e_global_styleguide":true},"urls":{"assets":"https:\/\/vctechnosolutions.com\/core\/modules\/f65f29574d\/assets\/"},"swiperClass":"swiper-container","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":1986,"title":"EYEQ%20-%20VC%20TECH","excerpt":"","featuredImage":false}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://vctechnosolutions.com/core/modules/f65f29574d/assets/js/frontend.min.js" id="elementor-frontend-js"></script>
+</div><span id="elementor-device-mode" class="elementor-screen-only"></span>  
+
+<img src="https://pixel.wp.com/g.gif?v=ext&amp;blog=183221517&amp;post=1986&amp;tz=5.5&amp;srv=vctechnosolutions.com&amp;j=1%3A12.9.3&amp;host=vctechnosolutions.com&amp;ref=https%3A%2F%2Fvctechnosolutions.com%2F&amp;fcp=1161&amp;rand=0.936504071925683" alt="" width="6" height="5" id="wpstats"></body>

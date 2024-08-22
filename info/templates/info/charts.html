@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .equal-box {
+        min-height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    /* Debugging styles */
+    .debug-info {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .debug-info strong {
+        color: #333;
+    }
+</style>
+
+<div class="container mt-5">
+    {% comment %} <!-- Debug Information -->
+    <div class="debug-info">
+        <h5>Debug Information:</h5>
+        <p><strong>Total Sites:</strong> {{ total_sites }}</p>
+        <p><strong>Total Online Sites:</strong> {{ total_online_sites }}</p>
+        <p><strong>Total Offline Sites:</strong> {{ total_offline_sites }}</p>
+        <p><strong>Total Cameras:</strong> {{ total_cameras }}</p>
+        <p><strong>Total Online Cameras:</strong> {{ total_online_cameras }}</p>
+        <p><strong>Total Offline Cameras:</strong> {{ total_offline_cameras }}</p>
+        <p><strong>Total NVRs:</strong> {{ nvr_count }}</p>
+        <p><strong>Total DVRs:</strong> {{ dvr_count }}</p>
+        <p><strong>Total Alerts:</strong> {{ total_alerts }}</p>
+    </div> {% endcomment %}
+
+    <!-- Client Selection Form -->
+    <form method="get" action="{% url 'charts' %}" class="mb-4">
+        <label for="client" class="form-label">Select Client:</label>
+        <select name="client" id="client" class="form-select" onchange="this.form.submit()">
+            <option value="all" {% if selected_client == 'all' %}selected{% endif %}>All Clients</option>
+            <option value="StarUnion" {% if selected_client == 'StarUnion' %}selected{% endif %}>StarUnion</option>
+            <option value="Mcdonald" {% if selected_client == 'Mcdonald' %}selected{% endif %}>Mcdonald</option>
+            <option value="Stanza" {% if selected_client == 'Stanza' %}selected{% endif %}>Stanza</option>
+
+        </select>
+    </form>
+    
+        <!-- Total Number of Alerts -->
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card text-center equal-box">
+                <div class="card-header">Total Number of Alerts</div>
+                <div class="card-body">
+                    <h3>{{ total_alerts }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Existing content for charts -->
+    <div class="row">
+        <!-- Alerts Pie Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">Alerts Distribution</div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="alertsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Site Status Pie Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">Site Status</div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="siteChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Status Pie Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">Camera Status</div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="cameraChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Over Time Line Chart -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">Alerts Over Time</div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Alerts Pie Chart
+    var ctxAlerts = document.getElementById('alertsChart').getContext('2d');
+    var alertsChart = new Chart(ctxAlerts, {
+        type: 'pie',
+        data: {
+            labels: {{ alert_labels|safe }},  // Labels for each alert type
+            datasets: [{
+                data: {{ alert_data|safe }},  // Counts for each alert type
+                backgroundColor: ['#36a2eb', '#ff6384', '#4bc0c0', '#ff9f40', '#9966ff']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+
+    // Site Status Pie Chart
+    var ctxSite = document.getElementById('siteChart').getContext('2d');
+    var siteChart = new Chart(ctxSite, {
+        type: 'pie',
+        data: {
+            labels: ['Online Sites', 'Offline Sites'],
+            datasets: [{
+                data: [{{ total_online_sites }}, {{ total_offline_sites }}],
+                backgroundColor: ['#36a2eb', '#ff6384']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+
+    // Camera Status Pie Chart
+    var ctxCamera = document.getElementById('cameraChart').getContext('2d');
+    var cameraChart = new Chart(ctxCamera, {
+        type: 'pie',
+        data: {
+            labels: ['Online Cameras', 'Offline Cameras'],
+            datasets: [{
+                data: [{{ total_online_cameras }}, {{ total_offline_cameras }}],
+                backgroundColor: ['#4bc0c0', '#ff9f40']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+
+    // Line Chart for Alerts Over Time
+    var ctxLine = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: {{ dates|safe }},  // Dates for the x-axis
+            datasets: [
+                {
+                    label: 'Total Alerts',
+                    data: {{ total_alerts|safe }},
+                    borderColor: '#ff6384',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true
+                },
+                {
+                    label: 'Resolved Alerts',
+                    data: {{ resolved_alerts|safe }},
+                    borderColor: '#36a2eb',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true
+                },
+                {
+                    label: 'Unresolved Alerts',
+                    data: {{ unresolved_alerts|safe }},
+                    borderColor: '#ff9f40',
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    fill: true
+                },
+                {
+                    label: 'Dismissed Alerts',
+                    data: {{ dismissed_alerts|safe }},
+                    borderColor: '#4bc0c0',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
