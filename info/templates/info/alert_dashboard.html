@@ -5,119 +5,171 @@
 {% block content %}
 <div class="container">
     <div class="header">
-        <img src="{% static 'info/logo.png' %}" alt="VC Tech Logo" class="logo">
-        <h1 class="title">System Alerts Dashboard</h1>
+        <h1 class="title">Health Monitoring</h1>
     </div>
 
-    <!-- Client and Region Selection Dropdown -->
-    <div class="client-selection">
+    <!-- Statistics Rows -->
+    <div class="stats-grid">
+        <!-- Total Sites -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-building"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Sites</h3>
+                <p>{{ total_sites }}</p>
+            </div>
+        </div>
+
+        <!-- Online Sites -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-globe"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Online Sites</h3>
+                <p>{{ total_online_sites }}</p>
+            </div>
+        </div>
+
+        <!-- Offline Sites -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-ban"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Offline Sites</h3>
+                <p>{{ total_offline_sites }}</p>
+            </div>
+        </div>
+
+        <!-- Total NVRs -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-server"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total NVRs</h3>
+                <p>{{ nvr_count }}</p>
+            </div>
+        </div>
+
+        <!-- Online NVRs -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Online NVRs</h3>
+                <p>{{ total_nvrs_online }}</p>
+            </div>
+        </div>
+
+        <!-- Offline NVRs -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-times-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Offline NVRs</h3>
+                <p>{{ total_nvrs_offline }}</p>
+            </div>
+        </div>
+
+        <!-- Total DVRs -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-hdd"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total DVRs</h3>
+                <p>{{ dvr_count }}</p>
+            </div>
+        </div>
+
+        <!-- Online DVRs -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-check-square"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Online DVRs</h3>
+                <p>{{ total_dvrs_online }}</p>
+            </div>
+        </div>
+
+        <!-- Offline DVRs -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-minus-square"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Offline DVRs</h3>
+                <p>{{ total_dvrs_offline }}</p>
+            </div>
+        </div>
+
+        <!-- Total Cameras -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-camera"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Cameras</h3>
+                <p>{{ total_cameras }}</p>
+            </div>
+        </div>
+
+        <!-- Online Cameras -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-eye"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Online Cameras</h3>
+                <p>{{ total_online_cameras }}</p>
+            </div>
+        </div>
+
+        <!-- Offline Cameras -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-eye-slash"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Offline Cameras</h3>
+                <p>{{ total_offline_cameras }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client, Region, and Status Selection Dropdown -->
+    <div class="client-selection" style="margin-top: 20px;">
         <label for="client-select">Select Client:</label>
-        <select id="client-select" onchange="filterByClient()">
+        <select id="client-select">
             <option value="all" {% if selected_client == 'all' %}selected{% endif %}>All</option>
             <option value="StarUnion" {% if selected_client == 'StarUnion' %}selected{% endif %}>StarUnion</option>
             <option value="Mcdonald" {% if selected_client == 'Mcdonald' %}selected{% endif %}>Mcdonald</option>
             <option value="Stanza" {% if selected_client == 'Stanza' %}selected{% endif %}>Stanza</option>
         </select>
+    
         <label for="region-select">Select Region:</label>
-        <select id="region-select" onchange="filterByRegion()">
+        <select id="region-select">
             <option value="all" {% if selected_region == 'all' %}selected{% endif %}>All</option>
             <option value="east" {% if selected_region == 'east' %}selected{% endif %}>East</option>
             <option value="west" {% if selected_region == 'west' %}selected{% endif %}>West</option>
             <option value="north" {% if selected_region == 'north' %}selected{% endif %}>North</option>
             <option value="south" {% if selected_region == 'south' %}selected{% endif %}>South</option>
         </select>
+    
+        <label for="status-select">Select Status:</label>
+        <select id="status-select">
+            <option value="all" {% if selected_status == 'all' %}selected{% endif %}>All</option>
+            <option value="online" {% if selected_status == 'online' %}selected{% endif %}>Online</option>
+            <option value="offline" {% if selected_status == 'offline' %}selected{% endif %}>Offline</option>
+        </select>
     </div>
 
-    <!-- Statistics Rows -->
-    <div class="stats-rows">
-        <!-- Row 1: Sites Stats -->
-        <div class="stats-cards">
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Total Sites</h3>
-                    <p>{{ total_sites }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Online Sites</h3>
-                    <p>{{ total_online_sites }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Offline Sites</h3>
-                    <p>{{ total_offline_sites }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Row 2: NVR Stats -->
-        <div class="stats-cards">
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Total NVRs</h3>
-                    <p>{{ nvr_count }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Online NVRs</h3>
-                    <p>{{ total_nvrs_online }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Offline NVRs</h3>
-                    <p>{{ total_nvrs_offline }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Row 3: DVR Stats -->
-        <div class="stats-cards">
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Total DVRs</h3>
-                    <p>{{ dvr_count }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Online DVRs</h8>
-                    <p>{{ total_dvrs_online }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Offline DVRs</h3>
-                    <p>{{ total_dvrs_offline }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Row 4: Camera Stats -->
-        <div class="stats-cards">
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Total Cameras</h3>
-                    <p>{{ total_cameras }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Online Cameras</h3>
-                    <p>{{ total_online_cameras }}</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>Offline Cameras</h3>
-                    <p>{{ total_offline_cameras }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="table-container">
         <table class="alert-table">
@@ -360,6 +412,11 @@
         window.location.href = '?region=' + region;
     }
 
+    function filterByStatus() {
+        var status = document.getElementById('status-select').value;
+        window.location.href = '?status=' + status;
+    }
+
     // Function to fetch IP Address and HTTP Port from the provided URL
     function fetchDetails(ipAddress, httpPort, siteName) {
         // Set the content in the modal
@@ -370,7 +427,43 @@
         // Show the modal
         $('#detailInfoModal').modal('show');
     }
+
+
+
+
+    function filterDashboard() {
+    var client = document.getElementById('client-select').value;
+    var region = document.getElementById('region-select').value;
+    var status = document.getElementById('status-select').value;
+
+    // Construct the URL with all filter parameters
+    var url = '?client=' + client + '&region=' + region + '&status=' + status;
+    window.location.href = url;
+}
+
+// Attach the filterDashboard function to the change event of all select elements
+document.getElementById('client-select').addEventListener('change', filterDashboard);
+document.getElementById('region-select').addEventListener('change', filterDashboard);
+document.getElementById('status-select').addEventListener('change', filterDashboard);
+
 </script>
+
+
+
+
+
+
+
+<script>
+    // Function to refresh the page 
+    function autoRefresh() {
+        window.location.reload();
+    }
+
+    // Set the interval to refresh every 10 minutes (600,000 milliseconds)
+    setInterval(autoRefresh, 600000);
+</script>
+
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/alert_dashboard.css' %}">
 
@@ -378,5 +471,86 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<style>
+    /* Light Mode Styles */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+.container {
+    background-color: #fff;
+}
+.stat-card {
+    background-color: #f9f9f9;
+}
+.alert-table th {
+    background-color: #3498db;
+}
+.alert-table td {
+    background-color: #fff;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #2c2c2c;
+    color: #f5f5f5;
+}
+
+body.dark-mode .container {
+    background-color: #3a3a3a;
+}
+
+body.dark-mode .stat-card {
+    background-color: #444;
+    color: #ffffff; /* White text color */
+}
+
+body.dark-mode .stat-icon {
+    color: #ffffff; /* White icon color */
+    background-color: #555; /* Slightly darker background */
+}
+
+body.dark-mode .alert-table th {
+    background-color: #556;
+    color: #ffffff; /* White text color for table headers */
+}
+
+body.dark-mode .alert-table td {
+    background-color: #555;
+    color: #ffffff; /* White text color for table cells */
+}
+
+body.dark-mode .client-selection select {
+    background-color: #444;
+    color: #f5f5f5;
+    border: 1px solid #666;
+}
+
+body.dark-mode .client-selection label {
+    color: #f5f5f5;
+}
+
+body.dark-mode .title {
+    color: #ffffff; /* White color for the CCTV DOCTOR title */
+}
+
+body.dark-mode .detail-button {
+    background-color: #3498db;
+    color: #fff;
+}
+
+body.dark-mode .offline-button, 
+body.dark-mode .status-button, 
+body.dark-mode .record-button {
+    color: #fff;
+}
+
+/* White text color for the statistics */
+body.dark-mode .stat-info h3, 
+body.dark-mode .stat-info p {
+    color: #ffffff;
+}
+</style>
 
 {% endblock %}

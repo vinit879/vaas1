@@ -88,30 +88,106 @@
         .btn-primary:hover {
             background-color: #003a8c;
         }
+
+        /* Dark Mode */
         .dark-mode {
-            background-color: #343a40 !important;
-            color: white !important;
+            background-color: #1c1c1c !important;
+            color: #e0e0e0 !important;
         }
+        
         .dark-mode .navbar, .dark-mode .sidebar, .dark-mode .card-header, .dark-mode .btn-primary {
-            background: linear-gradient(90deg, rgba(56,0,123,1) 0%, rgba(91,27,190,1) 100%);
+            background: linear-gradient(90deg, rgba(91,27,190,1) 0%, rgba(56,0,123,1) 100%);
         }
+        
         .dark-mode .navbar-dark .navbar-brand, .dark-mode .navbar-dark .navbar-nav .nav-link {
-            color: white;
+            color: #e0e0e0; 
         }
+        
+        .dark-mode .sidebar {
+            background: #2a2a2a;
+        }
+        
         .dark-mode .sidebar .nav-link {
-            color: white;
+            color: #e0e0e0;
         }
+        
         .dark-mode .sidebar .nav-link:hover, .dark-mode .sidebar .nav-link.active {
-            background-color: rgba(21, 47, 221, 0.8);
+            background-color: rgba(91,27,190,0.8); 
         }
+        
+        .dark-mode .content {
+            background-color: #1c1c1c; 
+        }
+        
         .dark-mode .card {
-            background-color: #495057;
-            color: white;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            background-color: #2a2a2a; 
+            color: #e0e0e0; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); 
         }
+        
         .dark-mode .card-header {
-            background: linear-gradient(90deg, rgba(56,0,123,1) 0%, rgba(91,27,190,1) 100%);
+            background: linear-gradient(90deg, rgba(91,27,190,1) 0%, rgba(56,0,123,1) 100%);
         }
+        
+        .dark-mode .btn-primary {
+            background-color: #5c1ac3; 
+            border: none;
+        }
+        
+        .dark-mode .btn-primary:hover {
+            background-color: #450a8c; 
+        }
+        
+        .dark-mode .btn, .dark-mode select, .dark-mode input[type="text"] {
+            background-color: #343a40; 
+            color: #e0e0e0; 
+            border-color: #444; 
+        }
+        
+        .dark-mode .form-control {
+            background-color: #343a40; 
+            color: #e0e0e0; 
+            border-color: #555; 
+        }
+        
+        .dark-mode .form-control::placeholder {
+            color: #a0a0a0; /* Lighter gray for placeholders */
+        }
+        
+        .dark-mode .table {
+            background-color: #1c1c1c;
+            color: #e0e0e0;
+            border-color: #444; 
+        }
+        
+        .dark-mode .table th, .dark-mode .table td {
+            border-color: #444; 
+        }
+        
+        .dark-mode .btn {
+            color: #fff; 
+            border-radius: 20px; 
+        }
+        
+        .dark-mode .btn-success {
+            background-color: #28a745; 
+            border-color: #28a745;
+        }
+        
+        .dark-mode .btn-danger {
+            background-color: #dc3545; 
+            border-color: #dc3545;
+        }
+        
+        .dark-mode .btn-warning {
+            background-color: #ffc107; 
+            border-color: #ffc107;
+        }
+        
+
+
+
+        
     </style>
 </head>
 <body>
@@ -169,7 +245,7 @@
                         <!-- ADD SITES -->
                         <li class="nav-item">
                             <a class="nav-link" href="/HM1/add-site/">
-                                <i class="fas fa-plus-circle mr-2"></i> ADD NVR/DVR
+                                <i class="fas fa-plus-circle mr-2"></i> Add Sites
                             </a>
                         </li>
                     </ul>

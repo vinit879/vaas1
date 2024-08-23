@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
     <div class="header-box">
-        <h1>ADD NVR/DVR</h1>
+        <h1>Add Sites</h1>
     </div>
     <form method="post">
         {% csrf_token %}
@@ -126,5 +126,36 @@
     button:hover {
         background-color: #003a8c;
     }
+    body.dark-mode .container {
+        background-color: #333333;
+        border: 2px solid #444444;
+    }
+
+    body.dark-mode .header-box h1 {
+        color: #ffffff;
+    }
+
+    body.dark-mode label {
+        color: #ffffff;
+    }
+
+    body.dark-mode input[type="text"],
+    body.dark-mode input[type="url"],
+    body.dark-mode input[type="password"],
+    body.dark-mode select {
+        background-color: #444444;
+        color: #ffffff;
+        border: 1px solid #555555;
+    }
+
+    body.dark-mode button {
+        background-color: #5a5a5a;
+        color: #ffffff;
+    }
+
+    body.dark-mode button:hover {
+        background-color: #6a6a6a;
+    }
+
 </style>
 {% endblock %}

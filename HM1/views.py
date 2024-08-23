@@ -13,10 +13,8 @@ from django.core.cache import cache
 from asgiref.sync import sync_to_async
 import datetime
 from django.contrib.auth.models import User
-from .models import Site
 
 logger = logging.getLogger(__name__)
-
 
 def get_channel_count(model):
     if "04CH" in model or "4CH" in model or '04' in model:
@@ -57,7 +55,6 @@ async def create_alert(alert_type, message, source):
 
 # Asynchronous function to fetch data for a specific site
 async def fetch_site_data(site):
-    
     cache_key = f"site_data_{site.name}"
     cached_data = cache.get(cache_key)
     if cached_data:
@@ -87,10 +84,7 @@ async def fetch_site_data(site):
         'device': {
             'ip_address': ip_address,
             'http_port': http,
-            'ports': {
-                
-                
-            }
+            'ports': {}
         }
     }
 
@@ -261,7 +255,7 @@ async def fetch_site_data(site):
 
     context['nvr_status'] = nvr_status
 
-    cache.set(cache_key, context, timeout=0)
+    cache.set(cache_key, context, timeout=12000)
     return context
 
 # Asynchronous function to fetch data for all sites
@@ -270,34 +264,33 @@ async def fetch_all_sites(sites):
     return await asyncio.gather(*tasks)
 
 # Dashboard view for your custom dashboard
-from django.contrib.auth.decorators import login_required
-
 @login_required
 def dashboard_view(request):
-    user = request.user
     selected_client = request.GET.get('client', 'all')
     selected_region = request.GET.get('region', 'all')
+    selected_status = request.GET.get('status', 'all')  # New status filter
 
-    if user.is_superuser:
-        # Admin can see all sites
-        filtered_sites = Site.objects.all()
-    else:
-        # Customer can only see their own sites
-        filtered_sites = Site.objects.filter(user=user)
-        
+    # Fetch sites from the database
+    filtered_sites = Site.objects.all()
     if selected_client != 'all':
         filtered_sites = filtered_sites.filter(client=selected_client)
     if selected_region != 'all':
         filtered_sites = filtered_sites.filter(region=selected_region)
 
-    filtered_sites = list(filtered_sites)
-    contexts = asyncio.run(fetch_all_sites(filtered_sites))
+    # Fetch and process data for each site
+    contexts = asyncio.run(fetch_all_sites(list(filtered_sites)))
+
+    # Filter contexts based on the selected status
+    if selected_status == 'online':
+        contexts = [context for context in contexts if context['nvr_status'] == 'online']
+    elif selected_status == 'offline':
+        contexts = [context for context in contexts if context['nvr_status'] == 'offline']
 
     # Calculate totals
     total_cameras = sum(context['total_cameras_count'] for context in contexts)
     total_dvrs = sum(1 for context in contexts if context['type'] == 'dvr')
     total_nvrs = sum(1 for context in contexts if context['type'] == 'nvr')
-    total_sites = len(filtered_sites)
+    total_sites = len(contexts)
     total_offline_sites = sum(1 for context in contexts if context['nvr_status'] == 'offline')
     total_offline_cameras = sum(context['offline_cameras_count'] for context in contexts)
     total_online_cameras = total_cameras - total_offline_cameras
@@ -309,13 +302,14 @@ def dashboard_view(request):
     total_dvrs_offline = total_dvrs - total_dvrs_online
     total_nvrs_offline = total_nvrs - total_nvrs_online
 
-    # Render the dashboard template with the calculated data
     return render(request, 'info/alert_dashboard.html', {
         'contexts': contexts,
-        'clients': ['all', 'StarUnion', 'Mcdonald', 'Jio','Stanza'],
+        'clients': ['all', 'StarUnion', 'Mcdonald', 'Stanza'],
         'regions': ['all', 'east', 'west', 'north', 'south'],
+        'statuses': ['all', 'online', 'offline'],
         'selected_client': selected_client,
         'selected_region': selected_region,
+        'selected_status': selected_status,  # Pass the selected status to the template
         'total_cameras': total_cameras,
         'dvr_count': total_dvrs,
         'nvr_count': total_nvrs,
@@ -330,11 +324,13 @@ def dashboard_view(request):
         'total_nvrs_offline': total_nvrs_offline,
     })
 
+
 # Alert Dashboard view for the alert dashboard
 @login_required
 def alert_dashboard(request):
     selected_client = request.GET.get('client', 'all')
     selected_region = request.GET.get('region', 'all')
+    selected_status = request.GET.get('status', 'all')  # New status filter
 
     # Fetch sites from the database
     filtered_sites = Site.objects.all()
@@ -352,6 +348,12 @@ def alert_dashboard(request):
     for context in contexts:
         logger.debug(f"Context for site {context['name']}: {context}")
 
+    # Filter contexts based on the selected status
+    if selected_status == 'online':
+        contexts = [context for context in contexts if context['nvr_status'] == 'online']
+    elif selected_status == 'offline':
+        contexts = [context for context in contexts if context['nvr_status'] == 'offline']
+
     # Calculate totals
     total_cameras = sum(context['total_cameras_count'] for context in contexts)
     total_dvrs = sum(1 for context in contexts if context['type'] == 'dvr')
@@ -371,8 +373,10 @@ def alert_dashboard(request):
         'contexts': contexts,
         'clients': ['all', 'StarUnion', 'Mcdonald', 'Jio','Stanza'],
         'regions': ['all', 'east', 'west', 'north', 'south'],
+        'statuses': ['all', 'online', 'offline'],  # Add status filter to the template
         'selected_client': selected_client,
         'selected_region': selected_region,
+        'selected_status': selected_status,
         'total_cameras': total_cameras,
         'dvr_count': total_dvrs,
         'nvr_count': total_nvrs,

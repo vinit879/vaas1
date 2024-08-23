@@ -1,14 +1,14 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #181818;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    color: #fff;
+    color: #333;
 }
 
 .container {
-    padding: 20px;
-    background-color: #222;
+    padding: 15px; /* Reduced padding */
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -17,7 +17,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Reduced margin */
 }
 
 .logo {
@@ -26,71 +26,72 @@ body {
 
 .title {
     font-size: 2em;
-    margin-left: 20px;
-    color: #fff;
+    margin-left: 15px; /* Reduced margin */
+    color: #333;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Reduced margin */
     text-transform: uppercase;
     letter-spacing: 2px;
     animation: fadeIn 1s ease-in-out;
     flex-grow: 1;
 }
 
-.stats-rows {
+.stats-grid {
     display: grid;
-    gap: 20px; /* Space between rows */
-}
-
-.stats-cards {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px; /* Space between cards */
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows */
+    gap: 5px; /* Reduced gap between the grid items */
 }
 
 .stat-card {
-    background: #333;
+    background: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    padding: 5px; /* Reduced padding */
-    flex: 1; /* Equal space for each card */
+    padding: 10px; /* Reduced padding */
     text-align: center;
     transition: transform 0.3s ease;
-    max-width: 120px; /* Reduce width of the cards */
+    flex-direction: row; /* Arrange icon and text horizontally */
+    justify-content: start; /* Align content to the start */
+    height: 60px; /* Adjusted height */
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
 }
 
 .stat-icon {
-    font-size: 1.5em; /* Reduced icon size */
-    color: #ffffff;
-    background-color: #673AB7;
+    font-size: 1.5em; /* Icon size */
+    color: #3498db; /* Icon color */
+    background-color: #eaf2f8;
     border-radius: 50%;
-    padding: 10px; /* Reduced padding */
-    margin-right: 10px; /* Reduced margin */
+    padding: 8px; /* Reduced padding */
+    margin-right: 10px; /* Reduced space between icon and text */
+}
+
+.stat-info {
+    margin-top: 5px; /* Reduced space between icon and text */
+    margin-right: 10px; /* Adjust this value to move right */
 }
 
 .stat-info h3 {
     margin: 0;
-    font-size: 0.9em; /* Reduced font size */
-    color: #fff;
+    font-size: 1.1em; /* Slightly smaller title */
+    color: #333;
 }
 
 .stat-info p {
-    margin: 5px 0 0;
-    font-size: 1em; /* Reduced font size */
+    margin: 3px 0 0; /* Reduced margin */
+    font-size: 1.4em; /* Slightly smaller number */
     font-weight: bold;
-    color: #fff;
+    color: #333;
 }
 
 .table-container {
     width: 100%;
     overflow-x: auto;
-    margin-top: 20px;
+    margin-top: 15px; /* Reduced margin */
 }
 
 .alert-table {
@@ -101,12 +102,12 @@ body {
 }
 
 .alert-table th, .alert-table td {
-    padding: 12px;
+    padding: 10px; /* Reduced padding */
     text-align: left;
     border-bottom: 1px solid #ddd;
     transition: background-color 0.3s ease-in-out;
     text-align: center;
-    color: #fff;
+    color: #333;
 }
 
 .alert-table th {
@@ -118,49 +119,49 @@ body {
 }
 
 .alert-table td {
-    background-color: #333;
+    background-color: #fff;
 }
 
 .alert-table tr:hover td {
-    background-color: #444;
+    background-color: #f1f1f1;
 }
 
 .info-button, .offline-button, .status-button, .detail-button, .record-button {
-    padding: 10px 20px;
+    padding: 8px 16px; /* Reduced padding */
     border: none;
     border-radius: 3px;
     cursor: pointer;
     color: white;
-    font-size: 14px;
+    font-size: 13px; /* Reduced font size */
     transition: background-color 0.3s, transform 0.3s;
 }
 
 .info-button.online {
-    background-color: #7ed957;
+    background-color: #4caf50;
 }
 
 .info-button.offline {
-    background-color: #ff3131;
+    background-color: #f44336;
 }
 
 .offline-button.lightgreen {
-    background-color: #7ed957;
+    background-color: #4caf50;
 }
 
 .offline-button.red {
-    background-color: #ff3131;
+    background-color: #f44336;
 }
 
 .offline-button.orange {
-    background-color: #ff914d;
+    background-color: #ff9800;
 }
 
 .status-button.normal {
-    background-color: #7ed957;
+    background-color: #4caf50;
 }
 
 .status-button.abnormal {
-    background-color: #ff3131;
+    background-color: #f44336;
 }
 
 .detail-button {
@@ -178,8 +179,8 @@ body {
 
 .modal-content {
     border-radius: 8px;
-    background-color: #333;
-    color: white;
+    background-color: #fff;
+    color: #333;
 }
 
 .modal-header {
@@ -222,9 +223,55 @@ body {
 }
 
 .status-normal {
-    color: #7ed957;
+    color: #4caf50;
 }
 
 .status-abnormal {
-    color: #ff3131;
+    color: #f44336;
+}
+
+.client-selection {
+    margin-bottom: 10px; /* Reduced space below the entire filter section */
+    display: flex;
+    justify-content: space-between; /* Distribute the filters evenly */
+    gap: 10px; /* Reduced space between individual filters */
+}
+
+.client-selection label {
+    margin-right: 5px; /* Reduced space between label and dropdown */
+}
+
+.site-info {
+    padding: 5px 10px; /* Reduced padding */
+    margin-bottom: 5px; /* Reduced margin between site rows */
+    background-color: #3498db;
+    border-radius: 5px;
+    color: white;
+    display: inline-block;
+    text-align: center;
+    font-size: 0.9em; /* Reduced font size */
+    line-height: 1.2em; /* Reduced line height */
+}
+
+.site-info:hover {
+    background-color: #2980b9;
+}
+
+.status-button, .info-button, .offline-button, .record-button {
+    padding: 5px 10px; /* Reduced padding for buttons */
+    font-size: 0.9em; /* Slightly smaller font size */
+    height: 30px; /* Set a fixed height for consistency */
+}
+
+.site-row {
+    padding: 5px 0; /* Reduced padding for the entire row */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px; /* Reduced space between rows */
+    background-color: #f9f9f9;
+    border-radius: 5px;
+
+
+
 }

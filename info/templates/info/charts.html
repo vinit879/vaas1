@@ -15,48 +15,67 @@
         text-align: center;
     }
 
-    .equal-box {
-        min-height: 100px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     .chart-container {
         position: relative;
         height: 300px;
         width: 100%;
     }
 
-    /* Debugging styles */
-    .debug-info {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 15px;
+    .alert-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
     }
 
-    .debug-info strong {
-        color: #333;
+    .alert-box {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        flex: 1;
+        min-width: 150px;
+        max-width: 200px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .alert-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .alert-box h5 {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .alert-box p {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 0;
+        color: #343a40;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        font-size: 1.2em;
     }
 </style>
-
-<div class="container mt-5">
-    {% comment %} <!-- Debug Information -->
-    <div class="debug-info">
-        <h5>Debug Information:</h5>
-        <p><strong>Total Sites:</strong> {{ total_sites }}</p>
-        <p><strong>Total Online Sites:</strong> {{ total_online_sites }}</p>
-        <p><strong>Total Offline Sites:</strong> {{ total_offline_sites }}</p>
-        <p><strong>Total Cameras:</strong> {{ total_cameras }}</p>
-        <p><strong>Total Online Cameras:</strong> {{ total_online_cameras }}</p>
-        <p><strong>Total Offline Cameras:</strong> {{ total_offline_cameras }}</p>
-        <p><strong>Total NVRs:</strong> {{ nvr_count }}</p>
-        <p><strong>Total DVRs:</strong> {{ dvr_count }}</p>
-        <p><strong>Total Alerts:</strong> {{ total_alerts }}</p>
-    </div> {% endcomment %}
-
-    <!-- Client Selection Form -->
+<!-- Client Selection Form -->
+<!-- <div class="container mt-5">
+    
     <form method="get" action="{% url 'charts' %}" class="mb-4">
         <label for="client" class="form-label">Select Client:</label>
         <select name="client" id="client" class="form-select" onchange="this.form.submit()">
@@ -64,22 +83,29 @@
             <option value="StarUnion" {% if selected_client == 'StarUnion' %}selected{% endif %}>StarUnion</option>
             <option value="Mcdonald" {% if selected_client == 'Mcdonald' %}selected{% endif %}>Mcdonald</option>
             <option value="Stanza" {% if selected_client == 'Stanza' %}selected{% endif %}>Stanza</option>
-
         </select>
-    </form>
-    
-        <!-- Total Number of Alerts -->
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="card text-center equal-box">
-                <div class="card-header">Total Number of Alerts</div>
-                <div class="card-body">
-                    <h3>{{ total_alerts }}</h3>
-                </div>
-            </div>
+    </form> -->
+
+    <!-- Alerts Summary -->
+    <div class="alert-container">
+        <div class="alert-box">
+            <h5>Total Alerts</h5>
+            <p>{{ alert_data.0|add:alert_data.1|add:alert_data.2 }}</p>
+        </div>
+        <div class="alert-box">
+            <h5>Unresolved Alerts</h5>
+            <p>{{ alert_data.0 }}</p>
+        </div>
+        <div class="alert-box">
+            <h5>Resolved Alerts</h5>
+            <p>{{ alert_data.1 }}</p>
+        </div>
+        <div class="alert-box">
+            <h5>Dismissed Alerts</h5>
+            <p>{{ alert_data.2 }}</p>
         </div>
     </div>
-    
-    
+
     <!-- Existing content for charts -->
     <div class="row">
         <!-- Alerts Pie Chart -->

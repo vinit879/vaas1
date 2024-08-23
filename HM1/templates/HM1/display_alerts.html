@@ -5,8 +5,8 @@
     <div class="header text-center">
         <h1>Current Alerts</h1>
         <div class="alert-controls">
-            <a href="{% url 'resolved_alerts' %}" class="btn btn-primary mx-2">View Resolved Alerts</a>
-            <a href="{% url 'dismissed_alerts' %}" class="btn btn-warning mx-2">View Dismissed Alerts</a>
+            <a href="{% url 'resolved_alerts' %}" class="btn btn-true-alerts mx-2">View True Alerts</a>
+            <a href="{% url 'dismissed_alerts' %}" class="btn btn-warning mx-2">View False Alerts</a>
             <button id="toggle-view" class="btn btn-secondary mx-2" onclick="toggleView()">Grid View</button>
         </div>
     </div>
@@ -29,9 +29,9 @@
                     <td class="message-column" title="{{ alert.message }}">{{ alert.message }}</td>
                     <td>{{ alert.source }}</td>
                     <td>{{ alert.created_at }}</td>
-                    <td class="text-center">
-                        <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'resolve_alert' alert.id %}', {{ alert.id }})" class="btn btn-success btn-sm mb-2">Resolve</a>
-                        <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'dismiss_alert' alert.id %}', {{ alert.id }})" class="btn btn-warning btn-sm">Dismiss</a>
+                    <td class="action-buttons">
+                        <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'resolve_alert' alert.id %}', {{ alert.id }})" class="btn btn-success btn-sm">True</a>
+                        <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'dismiss_alert' alert.id %}', {{ alert.id }})" class="btn btn-warning btn-sm">False</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -47,9 +47,9 @@
                 <p class="text-wrap" title="{{ alert.message }}">{{ alert.message }}</p>
                 <p>{{ alert.source }}</p>
                 <p>{{ alert.created_at }}</p>
-                <div>
-                    <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'resolve_alert' alert.id %}', {{ alert.id }})" class="btn btn-success btn-sm mb-2">Resolve</a>
-                    <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'dismiss_alert' alert.id %}', {{ alert.id }})" class="btn btn-warning btn-sm">Dismiss</a>
+                <div class="action-buttons">
+                    <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'resolve_alert' alert.id %}', {{ alert.id }})" class="btn btn-success btn-sm">True</a>
+                    <a href="javascript:void(0);" onclick="handleAlertAction('{% url 'dismiss_alert' alert.id %}', {{ alert.id }})" class="btn btn-warning btn-sm">False</a>
                 </div>
             </div>
             {% endfor %}
@@ -87,7 +87,7 @@
 
     .container {
         padding: 20px;
-        max-width: 1200px; /* Increased width for better alignment */
+        max-width: 1200px;
     }
 
     h1 {
@@ -107,13 +107,37 @@
         width: auto;
     }
 
+    .btn-true-alerts {
+        background-color: #28a745; /* Match the color of the "True" button */
+        color: white;
+        border: none;
+    }
+
+    .btn-true-alerts:hover {
+        background-color: #218838; /* Darker shade on hover */
+        color: white;
+    }
+
     table th, table td {
         vertical-align: middle;
+        text-align: center;
     }
 
     table .message-column {
-        white-space: normal; /* Allow wrapping */
+        white-space: normal;
         word-wrap: break-word;
+    }
+
+    /* Adjusting Button Alignment */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .action-buttons .btn {
+        width: 60px;
+        margin-bottom: 5px;
     }
 
     /* Grid View Styling */
@@ -198,7 +222,7 @@
     });
 
     function handleAlertAction(actionUrl, alertId) {
-        console.log('Attempting to handle alert with ID:', alertId); // Debugging line
+        console.log('Attempting to handle alert with ID:', alertId);
         fetch(actionUrl, {
             method: 'POST',
             headers: {
@@ -210,13 +234,13 @@
             if (response.ok) {
                 const alertElement = document.getElementById('alert-' + alertId);
                 if (alertElement) {
-                    console.log('Removing alert element:', alertId); // Debugging line
-                    alertElement.remove(); // Remove the alert from the DOM
+                    console.log('Removing alert element:', alertId);
+                    alertElement.remove();
                 } else {
-                    console.error('Alert element not found:', alertId); // Debugging line
+                    console.error('Alert element not found:', alertId);
                 }
             } else {
-                console.error('Failed to perform the action on alert:', alertId); // Debugging line
+                console.error('Failed to perform the action on alert:', alertId);
             }
         }).catch(error => console.error('Error:', error));
     }
