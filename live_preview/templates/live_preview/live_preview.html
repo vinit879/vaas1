@@ -212,6 +212,13 @@ body:not(.dark-mode) h1 {
         <button id="start-streams" class="btn btn-primary">Start Streams</button>
         <div class="video-container" id="video-container">
             <!-- Images will be appended here by JavaScript -->
+            <!-- Creating empty slots for the 3x2 grid -->
+            <div class="video-item card" style="visibility:hidden;"></div>
+            <div class="video-item card" style="visibility:hidden;"></div>
+            <div class="video-item card" style="visibility:hidden;"></div>
+            <div class="video-item card" style="visibility:hidden;"></div>
+            <div class="video-item card" style="visibility:hidden;"></div>
+            <div class="video-item card" style="visibility:hidden;"></div>
         </div>
     </div>
     <button id="exit-fullscreen" class="fullscreen-button">Exit Fullscreen</button>
@@ -268,6 +275,8 @@ body:not(.dark-mode) h1 {
             $('#start-streams').click(function() {
                 const site = $('#site-select').val();
                 const container = $('#video-container');
+                const emptySlots = container.find('.video-item').length - container.children().length;
+
                 container.empty(); // Clear previous images
 
                 if (site) {
@@ -308,6 +317,11 @@ body:not(.dark-mode) h1 {
                                         img.attr('src', '');
                                     }, 2 * 60 * 1000); // 2 minutes in milliseconds
                                 });
+
+                                // Add empty slots to maintain the 3x2 grid
+                                for (let i = selectedCameras.length; i < 6; i++) {
+                                    container.append('<div class="video-item card" style="visibility:hidden;"></div>');
+                                }
                             } else {
                                 console.error('Failed to stop previous site streams');
                             }
