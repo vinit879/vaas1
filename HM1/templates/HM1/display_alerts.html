@@ -8,6 +8,8 @@
             <a href="{% url 'resolved_alerts' %}" class="btn btn-true-alerts mx-2">View True Alerts</a>
             <a href="{% url 'dismissed_alerts' %}" class="btn btn-warning mx-2">View False Alerts</a>
             <button id="toggle-view" class="btn btn-secondary mx-2" onclick="toggleView()">Grid View</button>
+            <!-- Add the Total Alerts display here -->
+            <span class="badge badge-info mx-2">Total Alerts: {{ total_alerts }}</span>
         </div>
     </div>
 
@@ -116,6 +118,14 @@
     .btn-true-alerts:hover {
         background-color: #218838; /* Darker shade on hover */
         color: white;
+    }
+
+    .badge-info {
+        background-color: #17a2b8;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
     }
 
     table th, table td {

@@ -394,7 +394,8 @@ def alert_dashboard(request):
 # Display alerts view
 def display_alerts(request):
     alerts = Alert.objects.filter(is_resolved=False, is_dismissed=False).exclude(alert_type__in=['storage', 'device']).order_by('-created_at')
-    return render(request, 'HM1/display_alerts.html', {'alerts': alerts})
+    total_alerts = alerts.count()  # Calculate the total number of alerts
+    return render(request, 'HM1/display_alerts.html', {'alerts': alerts, 'total_alerts': total_alerts})
 
 # System alerts view
 def system_alerts(request):
