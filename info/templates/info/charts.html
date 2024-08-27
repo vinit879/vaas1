@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% load static %}
 
 {% block content %}
@@ -73,9 +74,8 @@
         font-size: 1.2em;
     }
 </style>
-<!-- Client Selection Form -->
-<!-- <div class="container mt-5">
-    
+
+<div class="container mt-5">
     <form method="get" action="{% url 'charts' %}" class="mb-4">
         <label for="client" class="form-label">Select Client:</label>
         <select name="client" id="client" class="form-select" onchange="this.form.submit()">
@@ -84,29 +84,29 @@
             <option value="Mcdonald" {% if selected_client == 'Mcdonald' %}selected{% endif %}>Mcdonald</option>
             <option value="Stanza" {% if selected_client == 'Stanza' %}selected{% endif %}>Stanza</option>
         </select>
-    </form> -->
+    </form>
 
     <!-- Alerts Summary -->
     <div class="alert-container">
         <div class="alert-box">
             <h5>Total Alerts</h5>
-            <p>{{ alert_data.0|add:alert_data.1|add:alert_data.2 }}</p>
+            <p>{{ total_alerts_sum_value }}</p> <!-- Total Alerts Sum -->
         </div>
         <div class="alert-box">
             <h5>Unresolved Alerts</h5>
-            <p>{{ alert_data.0 }}</p>
+            <p>{{ unresolved_alerts_sum_value }}</p> <!-- Sum of Unresolved Alerts -->
         </div>
         <div class="alert-box">
             <h5>Resolved Alerts</h5>
-            <p>{{ alert_data.1 }}</p>
+            <p>{{ resolved_alerts_sum_value }}</p> <!-- Sum of Resolved Alerts -->
         </div>
         <div class="alert-box">
             <h5>Dismissed Alerts</h5>
-            <p>{{ alert_data.2 }}</p>
+            <p>{{ dismissed_alerts_sum_value }}</p> <!-- Sum of Dismissed Alerts -->
         </div>
     </div>
 
-    <!-- Existing content for charts -->
+    <!-- Charts -->
     <div class="row">
         <!-- Alerts Pie Chart -->
         <div class="col-lg-6">
@@ -160,15 +160,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // Log the data to console for debugging
+    console.log("Alert Labels: ", {{ alert_labels|safe }});
+    console.log("Alert Data: ", {{ alert_data|safe }});
+    console.log("Dates: ", {{ dates|safe }});
+    console.log("Total Alert Values: ", {{ total_alerts_sum|safe }});
+
     // Alerts Pie Chart
     var ctxAlerts = document.getElementById('alertsChart').getContext('2d');
     var alertsChart = new Chart(ctxAlerts, {
         type: 'pie',
         data: {
-            labels: {{ alert_labels|safe }},  // Labels for each alert type
+            labels: {{ alert_labels|safe }},
             datasets: [{
-                data: {{ alert_data|safe }},  // Counts for each alert type
-                backgroundColor: ['#36a2eb', '#ff6384', '#4bc0c0', '#ff9f40', '#9966ff']
+                data: {{ alert_data|safe }},
+                backgroundColor: ['#36a2eb', '#ff6384', '#4bc0c0']
             }]
         },
         options: {
@@ -234,32 +240,32 @@
     var lineChart = new Chart(ctxLine, {
         type: 'line',
         data: {
-            labels: {{ dates|safe }},  // Dates for the x-axis
+            labels: {{ dates|safe }},
             datasets: [
                 {
                     label: 'Total Alerts',
-                    data: {{ total_alerts|safe }},
+                    data: {{ total_alerts_sum|safe }},
                     borderColor: '#ff6384',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     fill: true
                 },
                 {
                     label: 'Resolved Alerts',
-                    data: {{ resolved_alerts|safe }},
+                    data: {{ resolved_alerts_sum|safe }},
                     borderColor: '#36a2eb',
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     fill: true
                 },
                 {
                     label: 'Unresolved Alerts',
-                    data: {{ unresolved_alerts|safe }},
+                    data: {{ unresolved_alerts_sum|safe }},
                     borderColor: '#ff9f40',
                     backgroundColor: 'rgba(255, 159, 64, 0.2)',
                     fill: true
                 },
                 {
                     label: 'Dismissed Alerts',
-                    data: {{ dismissed_alerts|safe }},
+                    data: {{ dismissed_alerts_sum|safe }},
                     borderColor: '#4bc0c0',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     fill: true
