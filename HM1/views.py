@@ -392,6 +392,7 @@ def alert_dashboard(request):
     })
 
 # Display alerts view
+@login_required
 def display_alerts(request):
     alerts = Alert.objects.filter(is_resolved=False, is_dismissed=False).exclude(alert_type__in=['storage', 'device']).order_by('-created_at')
     total_alerts = alerts.count()  # Calculate the total number of alerts
@@ -403,23 +404,27 @@ def system_alerts(request):
     return render(request, 'system_alerts.html', {'alerts': alerts})
 
 # Resolve alert view
+@login_required
 def resolve_alert(request, alert_id):
     alert = get_object_or_404(Alert, id=alert_id)
     alert.resolve()
     return redirect('display_alerts')
 
 # Dismiss alert view
+@login_required
 def dismiss_alert(request, alert_id):
     alert = get_object_or_404(Alert, id=alert_id)
     alert.dismiss()
     return redirect('display_alerts')
 
 # Resolved alerts view
+@login_required
 def resolved_alerts(request):
     alerts = Alert.objects.filter(is_resolved=True)
     return render(request, 'HM1/resolved_alerts.html', {'alerts': alerts})
 
 # Dismissed alerts view
+@login_required
 def dismissed_alerts(request):
     alerts = Alert.objects.filter(is_dismissed=True)
     return render(request, 'HM1/dismissed_alerts.html', {'alerts': alerts})

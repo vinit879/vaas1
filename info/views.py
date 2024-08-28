@@ -37,6 +37,7 @@ def register(request):
 def profile(request):
     return render(request, 'profile.html')
 
+
 def dashboard(request):
     context = {
         'company_name': 'VC TECH',
@@ -48,26 +49,49 @@ class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('login')  # Redirect to login page after logout
 
 @sync_to_async
-def get_filtered_sites(selected_client):
+def get_filtered_sites_by_client(selected_client):
     if selected_client == 'all':
-        return list(Site.objects.all())  # Convert queryset to list
+        return list(Site.objects.all())
     else:
-        return list(Site.objects.filter(client=selected_client))  # Filter by client and convert to list
+        return list(Site.objects.filter(client=selected_client))
 
 @sync_to_async
-def get_alert_counts(selected_client):
-    if selected_client != 'all':
-        alert_counts = Alert.objects.filter(source__in=Site.objects.filter(client=selected_client).values_list('name', flat=True)).values('alert_type').annotate(count=Count('id'))
+def get_filtered_sites_by_client_and_site(selected_client, selected_site):
+    if selected_client == 'all' and selected_site == 'all':
+        return list(Site.objects.all())
+    elif selected_client != 'all' and selected_site == 'all':
+        return list(Site.objects.filter(client=selected_client))
+    elif selected_client == 'all' and selected_site != 'all':
+        return list(Site.objects.filter(name=selected_site))
     else:
-        alert_counts = Alert.objects.values('alert_type').annotate(count=Count('id'))
-    
+        return list(Site.objects.filter(client=selected_client, name=selected_site))
+
+@sync_to_async
+def get_alert_counts(selected_client, selected_site):
+    if selected_client == 'all' and selected_site == 'all':
+        alert_counts = Alert.objects.all().values('alert_type').annotate(count=Count('id'))
+    elif selected_client != 'all' and selected_site == 'all':
+        alert_counts = Alert.objects.filter(source__in=Site.objects.filter(client=selected_client).values_list('name', flat=True)).values('alert_type').annotate(count=Count('id'))
+    elif selected_client == 'all' and selected_site != 'all':
+        alert_counts = Alert.objects.filter(source=selected_site).values('alert_type').annotate(count=Count('id'))
+    else:
+        alert_counts = Alert.objects.filter(source=selected_site, source__in=Site.objects.filter(client=selected_client).values_list('name', flat=True)).values('alert_type').annotate(count=Count('id'))
+
     alert_labels = [Alert.ALERT_TYPE_CHOICES_DICT[alert['alert_type']] for alert in alert_counts]
     alert_data = [alert['count'] for alert in alert_counts]
     return alert_labels, alert_data
 
 @sync_to_async
-def get_alerts_over_time(selected_client):
-    if selected_client != 'all':
+def get_alerts_over_time(selected_client, selected_site):
+    if selected_client == 'all' and selected_site == 'all':
+        alerts_by_date = Alert.objects.annotate(
+            date=TruncDate('created_at')
+        ).values('date').annotate(
+            total_alerts_sum=Count('id'),
+            resolved_alerts=Count('id', filter=Q(is_resolved=True)),
+            dismissed_alerts=Count('id', filter=Q(is_dismissed=True)),
+        ).order_by('date')
+    elif selected_client != 'all' and selected_site == 'all':
         alerts_by_date = Alert.objects.filter(
             source__in=Site.objects.filter(client=selected_client).values_list('name', flat=True)
         ).annotate(
@@ -77,8 +101,18 @@ def get_alerts_over_time(selected_client):
             resolved_alerts=Count('id', filter=Q(is_resolved=True)),
             dismissed_alerts=Count('id', filter=Q(is_dismissed=True)),
         ).order_by('date')
+    elif selected_client == 'all' and selected_site != 'all':
+        alerts_by_date = Alert.objects.filter(source=selected_site).annotate(
+            date=TruncDate('created_at')
+        ).values('date').annotate(
+            total_alerts_sum=Count('id'),
+            resolved_alerts=Count('id', filter=Q(is_resolved=True)),
+            dismissed_alerts=Count('id', filter=Q(is_dismissed=True)),
+        ).order_by('date')
     else:
-        alerts_by_date = Alert.objects.annotate(
+        alerts_by_date = Alert.objects.filter(
+            source=selected_site, source__in=Site.objects.filter(client=selected_client).values_list('name', flat=True)
+        ).annotate(
             date=TruncDate('created_at')
         ).values('date').annotate(
             total_alerts_sum=Count('id'),
@@ -87,7 +121,7 @@ def get_alerts_over_time(selected_client):
         ).order_by('date')
 
     dates = [alert['date'].strftime('%Y-%m-%d') for alert in alerts_by_date]
-    total_alerts_sum = [alert['total_alerts_sum'] for alert in alerts_by_date]  # List of counts
+    total_alerts_sum = [alert['total_alerts_sum'] for alert in alerts_by_date]
     resolved_alerts_sum = [alert['resolved_alerts'] for alert in alerts_by_date]
     dismissed_alerts_sum = [alert['dismissed_alerts'] for alert in alerts_by_date]
     unresolved_alerts_sum = [
@@ -97,8 +131,8 @@ def get_alerts_over_time(selected_client):
 
     return dates, total_alerts_sum, resolved_alerts_sum, unresolved_alerts_sum, dismissed_alerts_sum
 
-async def fetch_dashboard_data(selected_client):
-    filtered_sites = await get_filtered_sites(selected_client)
+async def fetch_dashboard_data(selected_client, selected_site):
+    filtered_sites = await get_filtered_sites_by_client_and_site(selected_client, selected_site)
     contexts = await fetch_all_sites(filtered_sites)  # Await the async function
 
     total_cameras = sum(context['total_cameras_count'] for context in contexts)
@@ -116,8 +150,8 @@ async def fetch_dashboard_data(selected_client):
     total_offline_sites = sum(1 for context in contexts if context['nvr_status'] == 'offline')
 
     # Fetch alert counts and timeseries data
-    alert_labels, alert_data = await get_alert_counts(selected_client)
-    dates, total_alerts_sum, resolved_alerts_sum, unresolved_alerts_sum, dismissed_alerts_sum = await get_alerts_over_time(selected_client)
+    alert_labels, alert_data = await get_alert_counts(selected_client, selected_site)
+    dates, total_alerts_sum, resolved_alerts_sum, unresolved_alerts_sum, dismissed_alerts_sum = await get_alerts_over_time(selected_client, selected_site)
 
     # Calculate the sum of the lists
     total_alerts_sum_value = sum(total_alerts_sum)
@@ -139,19 +173,24 @@ async def fetch_dashboard_data(selected_client):
         'alert_data': alert_data,
         'dates': dates,
         'total_alerts_sum': total_alerts_sum,  # Pass the list for the chart
-        'total_alerts_sum_value': total_alerts_sum_value,  # Pass the sum for display
+        'total_alerts_sum_value': total_alerts_sum_value,  # Sum for display
         'resolved_alerts_sum': resolved_alerts_sum,
-        'resolved_alerts_sum_value': resolved_alerts_sum_value,  # Pass the sum for display
+        'resolved_alerts_sum_value': resolved_alerts_sum_value,  # Sum for display
         'unresolved_alerts_sum': unresolved_alerts_sum,
-        'unresolved_alerts_sum_value': unresolved_alerts_sum_value,  # Pass the sum for display
+        'unresolved_alerts_sum_value': unresolved_alerts_sum_value,  # Sum for display
         'dismissed_alerts_sum': dismissed_alerts_sum,
-        'dismissed_alerts_sum_value': dismissed_alerts_sum_value,  # Pass the sum for display
+        'dismissed_alerts_sum_value': dismissed_alerts_sum_value,  # Sum for display
     }
 
+@login_required
 def dashboard_view(request):
     selected_client = request.GET.get('client', 'all')
+    selected_site = request.GET.get('site', 'all')
 
-    data = asyncio.run(fetch_dashboard_data(selected_client))  # Use asyncio.run()
+    data = asyncio.run(fetch_dashboard_data(selected_client, selected_site))  # Use asyncio.run()
+
+    # Get the list of sites for the selected client
+    sites = asyncio.run(get_filtered_sites_by_client(selected_client))
 
     return render(request, 'info/charts.html', {
         'contexts': data['contexts'],
@@ -175,6 +214,8 @@ def dashboard_view(request):
         'dismissed_alerts_sum': data['dismissed_alerts_sum'],
         'dismissed_alerts_sum_value': data['dismissed_alerts_sum_value'],  # Sum for display
         'selected_client': selected_client,
+        'selected_site': selected_site,
+        'sites': sites,  # Pass the sites to the template
     })
 
 @login_required

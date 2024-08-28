@@ -6,6 +6,8 @@ from django.shortcuts import render
 import time
 from subprocess import Popen, PIPE
 import psutil  # To set process priority
+from django.contrib.auth.decorators import login_required
+
 
 # Configure logging for detailed output
 logging.basicConfig(level=logging.WARNING)  # Set to WARNING by default
@@ -131,6 +133,7 @@ def gen(camera):
         else:
             time.sleep(0.001)  # Reduce sleep to ensure timely updates
 
+@login_required
 def video_feed(request, site, stream_id):
     stream_map = {
         
@@ -220,6 +223,7 @@ def stop_site_streams(request, site):
             logger.info(f"Camera {camera_key} stopped")
     return JsonResponse({'status': 'success'})
 
+@login_required
 def live_stream1(request):
     clients = {
         'mac_donald': [

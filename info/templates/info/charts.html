@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% load static %}
 
 {% block content %}
@@ -84,25 +83,33 @@
             <option value="Mcdonald" {% if selected_client == 'Mcdonald' %}selected{% endif %}>Mcdonald</option>
             <option value="Stanza" {% if selected_client == 'Stanza' %}selected{% endif %}>Stanza</option>
         </select>
+
+        <label for="site" class="form-label">Select Site:</label>
+        <select name="site" id="site" class="form-select" onchange="this.form.submit()">
+            <option value="all" {% if selected_site == 'all' %}selected{% endif %}>All Sites</option>
+            {% for site in sites %}
+                <option value="{{ site.name }}" {% if selected_site == site.name %}selected{% endif %}>{{ site.name }}</option>
+            {% endfor %}
+        </select>
     </form>
 
     <!-- Alerts Summary -->
     <div class="alert-container">
         <div class="alert-box">
             <h5>Total Alerts</h5>
-            <p>{{ total_alerts_sum_value }}</p> <!-- Total Alerts Sum -->
+            <p>{{ total_alerts_sum_value }}</p> <!-- Display the sum as a single integer -->
         </div>
         <div class="alert-box">
             <h5>Unresolved Alerts</h5>
-            <p>{{ unresolved_alerts_sum_value }}</p> <!-- Sum of Unresolved Alerts -->
+            <p>{{ unresolved_alerts_sum_value }}</p> <!-- Display the sum as a single integer -->
         </div>
         <div class="alert-box">
             <h5>Resolved Alerts</h5>
-            <p>{{ resolved_alerts_sum_value }}</p> <!-- Sum of Resolved Alerts -->
+            <p>{{ resolved_alerts_sum_value }}</p> <!-- Display the sum as a single integer -->
         </div>
         <div class="alert-box">
             <h5>Dismissed Alerts</h5>
-            <p>{{ dismissed_alerts_sum_value }}</p> <!-- Sum of Dismissed Alerts -->
+            <p>{{ dismissed_alerts_sum_value }}</p> <!-- Display the sum as a single integer -->
         </div>
     </div>
 
