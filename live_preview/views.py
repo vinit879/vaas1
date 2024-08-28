@@ -136,33 +136,9 @@ def gen(camera):
 @login_required
 def video_feed(request, site, stream_id):
     stream_map = {
-        
-        'unnatwadi': {str(i): f"rtsp://admin:vct280620@10.11.12.122:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 15)},
-        
-        'hesargatta': {str(i): f"rtsp://admin:vct280620@10.11.12.93:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 16)},
-        'jio_world_bake_module': {str(i): f"rtsp://admin:vct280620@10.11.12.30:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 8)},
         'Florence_House': {str(i): f"rtsp://admin:vct280620@203.122.53.116:8081/Streaming/Channels/{100 * i + 2}" for i in range(1, 17)},
-        'Pune': {str(i): f"rtsp://admin:vct280620@10.11.16.203:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 9)},
-        'Thane': {str(i): f"rtsp://admin:vct280620@10.11.16.206:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Andheri': {str(i): f"rtsp://admin:vct280620@10.11.16.210:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 9)},
-        'Vijayawada': {str(i): f"rtsp://admin:vct280620@10.11.16.211:1024/Streaming/Channels/{100 * i +2}" for i in range(1, 4)},
-        'Nashik': {str(i): f"rtsp://admin:vct280620@10.11.16.213:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 9)},
-        'Anna Nagar': {str(i): f"rtsp://admin:vct280620@10.11.16.215:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 4)},
-        'Akola': {str(i): f"rtsp://admin:vct280620@10.11.16.207:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Ludhiana': {str(i): f"rtsp://admin:vct280620@10.11.16.214:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Kolhapur': {str(i): f"rtsp://admin:vct280620@10.11.16.201:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'MG Road': {str(i): f"rtsp://admin:SUD@2806@10.11.16.218:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Rajaji Nagar': {str(i): f"rtsp://admin:vct280620@10.11.16.204:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'jayanagar': {str(i): f"rtsp://admin:vct280620@10.11.16.209:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Malda': {str(i): f"rtsp://admin:vct280620@10.11.16.216:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Lucknow': {str(i): f"rtsp://admin:vct280620@10.11.16.220:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Patto Goa': {str(i): f"rtsp://admin:vct280620@10.11.16.221:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 8)},
-        'Warangal': {str(i): f"rtsp://admin:vct280620@10.11.16.223:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
-        'Latur': {str(i): f"rtsp://admin:vct280620@10.11.16.222:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 4)},
-        'Amritsar': {str(i): f"rtsp://admin:vct280620@10.11.16.212:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 4)},
-        'Guntur': {str(i): f"rtsp://admin:vct280620@10.11.16.225:1024/Streaming/Channels/{100 * i + 2}" for i in range(1, 5)},
         'KielHouse': {str(i): f"rtsp://admin:vct280620@180.151.29.23:8081/Streaming/Channels/{100 * i + 2}" for i in range(1, 17)},
-
+        'Langley_House': {str(i): f"rtsp://admin:vct280620@180.151.64.116:8381/Streaming/Channels/{100 * i + 2}" for i in range(1, 9)},
     }
     if site not in stream_map:
         logger.error(f"Invalid site: {site}")
@@ -226,39 +202,10 @@ def stop_site_streams(request, site):
 @login_required
 def live_stream1(request):
     clients = {
-        'mac_donald': [
-            { 'value': "unnatwadi", 'text': "Unnatwadi", 'cameraCount': 14 },
-            { 'value': "hesargatta", 'text': "Hesargatta", 'cameraCount': 15 }
-        ],
         'stanza': [
             { 'value': "Florence_House", 'text': "Florence House", 'cameraCount': 16 },
             { 'value': "KielHouse", 'text': "KielHouse", 'cameraCount': 16 },
-
-        ],
-        'jioworld': [
-            { 'value': "jio_world_bake_module", 'text': "Jio World Bake Module", 'cameraCount': 7 }
-        ],
-        'StarUnion':[
-            { 'value': "Pune", 'text': "Pune", 'cameraCount': 8 },
-            { 'value': "Thane", 'text': "Thane", 'cameraCount': 4 },
-            { 'value': "Andheri", 'text': "Andheri", 'cameraCount': 8 },
-            { 'value': "Vijayawada", 'text': "Vijayawada", 'cameraCount': 3 },
-            { 'value': "Nashik", 'text': "Nashik", 'cameraCount': 8 },
-            { 'value': "Anna Nagar", 'text': "Anna Nagar", 'cameraCount': 3 },
-            { 'value': "Akola", 'text': "Akola", 'cameraCount': 4 },
-            { 'value': "Ludhiana", 'text': "Ludhiana", 'cameraCount': 4 },
-            { 'value': "Kolhapur", 'text': "Kolhapur", 'cameraCount': 4 },
-            { 'value': "MG Road", 'text': "MG Road", 'cameraCount': 4 },
-            { 'value': "Rajagi Nagar", 'text': "Rajagi Nagar", 'cameraCount': 4 },
-            { 'value': "Jayanagar", 'text': "Jayanagar", 'cameraCount': 4 },
-            { 'value': "Malda", 'text': "Malda", 'cameraCount': 4 },
-            { 'value': "Lucknow", 'text': "Lucknow", 'cameraCount': 4 },
-            { 'value': "Patto Goa", 'text': "Patto Goa", 'cameraCount': 7 },
-            { 'value': "Warangal", 'text': "Warangal", 'cameraCount': 4 },
-            { 'value': "Latur", 'text': "Latur", 'cameraCount': 3 },
-            { 'value': "Amritsar", 'text': "Amritsar", 'cameraCount': 3 },
-            { 'value': "Guntur", 'text': "Guntur", 'cameraCount': 4 },
-
+            { 'value': "Langley_House", 'text': "Langley_House", 'cameraCount': 8 },
         ]
     }
     return render(request, 'live_preview/live_preview.html', {'clients': clients})
